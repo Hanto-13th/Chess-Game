@@ -1,0 +1,78 @@
+from case import *
+from piece import *
+
+
+def position_starting_game(screen): #fonction de blitt de toutes les positions de départ
+    a[0].blit(W_rook, (0, 0))
+    screen.blit(a[0], coord_case[0][0])
+    a[1].blit(W_pawn, (0, 0))
+    screen.blit(a[1], coord_case[0][1])
+    a[6].blit(B_pawn, (0, 0))
+    screen.blit(a[6], coord_case[0][6])
+    a[7].blit(B_rook, (0, 0))
+    screen.blit(a[7], coord_case[0][7])
+
+    b[0].blit(W_knight, (0, 0))
+    screen.blit(b[0], coord_case[1][0])
+    b[1].blit(W_pawn, (0, 0))
+    screen.blit(b[1], coord_case[1][1])
+    b[6].blit(B_pawn, (0, 0))
+    screen.blit(b[6], coord_case[1][6])
+    b[7].blit(B_rook, (0, 0))
+    screen.blit(b[7], coord_case[1][7])
+
+    c[0].blit(W_bishop, (0, 0))
+    screen.blit(c[0], coord_case[2][0])
+    c[1].blit(W_pawn, (0, 0))
+    screen.blit(c[1], coord_case[2][1])
+    c[6].blit(B_pawn, (0, 0))
+    screen.blit(c[6], coord_case[2][6])
+    c[7].blit(B_bishop, (0, 0))
+    screen.blit(c[7], coord_case[2][7])
+
+    d[0].blit(W_queen, (0, 0))
+    screen.blit(d[0], coord_case[3][0])
+    d[1].blit(W_pawn, (0, 0))
+    screen.blit(d[1], coord_case[3][1])
+    d[6].blit(B_pawn, (0, 0))
+    screen.blit(d[6], coord_case[3][6])
+    d[7].blit(B_queen, (0, 0))
+    screen.blit(d[7], coord_case[3][7])
+
+    e[0].blit(W_king, (0, 0))
+    screen.blit(e[0], coord_case[4][0])
+    e[1].blit(W_pawn, (0, 0))
+    screen.blit(e[1], coord_case[4][1])
+    e[6].blit(B_pawn, (0, 0))
+    screen.blit(e[6], coord_case[4][6])
+    e[7].blit(B_king, (0, 0))
+    screen.blit(e[7], coord_case[4][7])
+
+    f[0].blit(W_bishop, (0, 0))
+    screen.blit(f[0], coord_case[5][0])
+    f[1].blit(W_pawn, (0, 0))
+    screen.blit(f[1], coord_case[5][1])
+    f[6].blit(B_pawn, (0, 0))
+    screen.blit(f[6], coord_case[5][6])
+    f[7].blit(B_bishop, (0, 0))
+    screen.blit(f[7], coord_case[5][7])
+
+    g[0].blit(W_knight, (0, 0))
+    screen.blit(g[0], coord_case[6][0])
+    g[1].blit(W_pawn, (0, 0))
+    screen.blit(g[1], coord_case[6][1])
+    g[6].blit(B_pawn, (0, 0))
+    screen.blit(g[6], coord_case[6][6])
+    g[7].blit(B_knight, (0, 0))
+    screen.blit(g[7], coord_case[6][7])
+
+    h[0].blit(W_rook, (0, 0))
+    screen.blit(h[0], coord_case[7][0])
+    h[1].blit(W_pawn, (0, 0))
+    screen.blit(h[1], coord_case[7][1])
+    h[6].blit(B_pawn, (0, 0))
+    screen.blit(h[6], coord_case[7][6])
+    h[7].blit(B_rook, (0, 0))
+    screen.blit(h[7], coord_case[7][7])
+
+

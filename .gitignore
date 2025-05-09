@@ -1,0 +1,18 @@
+# Dossiers à ignorer
+__pycache__/
+.idea/
+
+# Fichiers compilés à ignorer
+*.pyc
+*.pyo
+*.pyd
+
+# Fichiers temporaires de swap
+*.swp
+
+# Environnement virtuel local 
+.venv/
+env/
+
+# Autres Fichiers
+step.txt

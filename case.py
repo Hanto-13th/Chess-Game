@@ -1,0 +1,55 @@
+import pygame
+
+coord_case = [[(0,656.25),(0,562.5),(0,468.75),(0,375),(0,281.25),(0,187.5),(0,93.75),(0,0)]
+           ,[(93.75,656.25),(93.75,562.5),(93.75,468.75),(93.75,375),(93.75,281.25),(93.75,187.5),(93.75,93.75),(93.75,0)]
+           ,[(187.5,656.25),(187.5,562.5),(187.5,468.75),(187.5,375),(187.5,281.25),(187.5,187.5),(187.5,93.75),(187.5,0)]
+           ,[(281.25,656.25),(281.25,562.5),(281.25,468.75),(281.25,375),(281.25,281.25),(281.25,187.5),(281.25,93.75),(281.25,0)]
+           ,[(375,656.25),(375,562.5),(375,468.75),(375,375),(375,281.25),(375,187.5),(375,93.75),(375,0)]
+           ,[(468.75,656.25),(468.75,562.5),(468.75,468.75),(468.75,375),(468.75,281.25),(468.75,187.5),(468.75,93.75),(468.75,0)]
+           ,[(562.5,656.25),(562.5,562.5),(562.5,468.75),(562.5,375),(562.5,281.25),(562.5,187.5),(562.5,93.75),(562.5,0)]
+           ,[(656.25,656.25),(656.25,562.5),(656.25,468.75),(656.25,375),(656.25,281.25),(656.25,187.5),(656.25,93.75),(656.25,0)]] #Coordonnées de chaque case (W_pos)
+#de gauche a droite: de la plus proche à la plus éloignée
+
+a = [1,2,3,4,5,6,7,8]
+b = [1,2,3,4,5,6,7,8]
+c = [1,2,3,4,5,6,7,8]
+d = [1,2,3,4,5,6,7,8]
+e = [1,2,3,4,5,6,7,8]
+f = [1,2,3,4,5,6,7,8]
+g = [1,2,3,4,5,6,7,8]
+h = [1,2,3,4,5,6,7,8] #liste pour création des surfaces de chaque cases
+
+index = 0
+
+for number in range(1,9):
+    a[index] = pygame.Surface((93.75,93.75),pygame.SRCALPHA, 32)
+    #a[index] = a[index].convert_alpha()
+
+    b[index] = pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32)
+    #b[index] = b[index].convert_alpha()
+
+    c[index] = pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32)
+    #c[index] = c[index].convert_alpha()
+
+    d[index] = pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32)
+    #d[index] = d[index].convert_alpha()
+
+    e[index] = pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32)
+    #e[index] = e[index].convert_alpha()
+
+    f[index] = pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32)
+    #f[index] = f[index].convert_alpha()
+
+    g[index] = pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32)
+    #g[index] = g[index].convert_alpha()
+
+    h[index] = pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32)
+    #h[index] = h[index].convert_alpha()
+
+    index += 1
+
+#boucle pour création des surfaces de chaque cases
+
+
+
+
