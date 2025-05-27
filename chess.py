@@ -27,8 +27,8 @@ pygame.display.flip() #MAJ de l'écran
 
 selected_piece = 0 #variable pour savoir si une piece est séléctionnée
 
-start_letter_case,start_index_1,start_index_2 = None,None,None
-arrived_letter_case, arrived_index_1, arrived_index_2 = None,None,None #variable de coordonnées d'arrivée et de sortie
+start_index_1,start_index_2 = None,None
+arrived_index_1, arrived_index_2 = None,None #variable de coordonnées d'arrivée et de sortie
 
 click_pos_start = None
 click_pos_arrived = None #variable pour stocker les coordonnées
@@ -41,15 +41,15 @@ while running: #Boucle principale
         if event.type == pygame.MOUSEBUTTONDOWN:
             if selected_piece == 0:#si aucune piece n'est séléctionné
                 click_pos_start = event.pos
-                start_letter_case,start_index_1,start_index_2 = find_coord(click_pos_start)#evenement clique souris + appel et stockage de la fonction détection des coordonnées
+                start_index_1,start_index_2 = find_coord(click_pos_start)#evenement clique souris + appel et stockage de la fonction détection des coordonnées
                 selected_piece = 1
             else:
                 click_pos_arrived = event.pos #si une piece est séléctionné
-                arrived_letter_case, arrived_index_1, arrived_index_2 = find_coord(click_pos_arrived)#evenement clique souris + appel et stockage de la fonction détection des coordonnées
-                if arrived_letter_case == start_letter_case and arrived_index_2 == start_index_2: #si la même case est séléctionné alors reset
+                arrived_index_1, arrived_index_2 = find_coord(click_pos_arrived)#evenement clique souris + appel et stockage de la fonction détection des coordonnées
+                if arrived_index_1 == start_index_1 and arrived_index_2 == start_index_2: #si la même case est séléctionné alors reset
                     selected_piece = 0
                 else:
-                    move_and_blitt(screen,background,start_letter_case,start_index_1,start_index_2,arrived_letter_case,arrived_index_1,arrived_index_2)#appel fonction déplacement des pièces
+                    move_and_blitt(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2)#appel fonction déplacement des pièces
                     selected_piece = 0
 
 

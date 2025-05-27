@@ -1,40 +1,31 @@
 import pygame
 pygame.init()
 
-from case import *#import pour stockage surface correspondante dans variable "letter" ainsi que coord-case pour fonction "move_and_blitt"
+from case import *#import les  listes "case" et "coord_case" pour fonction "move_and_blitt"
 
 
 
-#fonction de détéction de coordonnées avec return de lettre et chiffre pour affichage piece a chaque clique
+#fonction de détéction de coordonnées avec return index pour affichage piece a chaque clique
 def find_coord(pos_click):
     x,y = pos_click
-    letter = None
     coord_index_x = None
     coord_index_y = None
 
     if 0 < x < 93.75:
-        letter = a
         coord_index_x = 0
     elif 93.75 < x < 187.5:
-        letter = b
         coord_index_x = 1
     elif 187.5 < x < 281.25:
-        letter = c
         coord_index_x = 2
     elif 281.25 < x < 375:
-        letter = d
         coord_index_x = 3
     elif 375 < x < 468.75:
-        letter = e
         coord_index_x = 4
     elif 468.75 < x < 562.5:
-        letter = f
         coord_index_x = 5
     elif 562.5 < x < 656.25:
-        letter = g
         coord_index_x = 6
     elif 656.25 < x < 750:
-        letter = h
         coord_index_x = 7
 
     if 0 < y < 93.75:
@@ -55,9 +46,9 @@ def find_coord(pos_click):
         coord_index_y = 0
 
 
-    return letter,coord_index_x,coord_index_y
+    return coord_index_x,coord_index_y
 
-def move_and_blitt(screen,background,start_letter_case,start_index_1,start_index_2,arrived_letter_case,arrived_index_1,arrived_index_2):
+def move_and_blitt(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2):
 #fonction de déplacement des pièces
 
 
@@ -66,8 +57,10 @@ def move_and_blitt(screen,background,start_letter_case,start_index_1,start_index
     z, w = coord_case[arrived_index_1][arrived_index_2]
 
     screen.blit(background, (z,w), area=pygame.Rect(z,w, 93.75, 93.75)) #blit morceau background sur case arrivée pour enlever pièce
-    arrived_letter_case[arrived_index_2] = start_letter_case[start_index_2] #pièce sur case arrivée devient celle de case de départ
-    screen.blit(arrived_letter_case[arrived_index_2], (z, w)) #blit sur ecran de la position de la nouvelle pièce sur case arrivée
+
+    case[arrived_index_1][arrived_index_2] = case[start_index_1][start_index_2] #pièce sur case arrivée devient celle de case de départ
+    screen.blit(case[arrived_index_1][arrived_index_2], (z, w)) #blit sur ecran de la position de la nouvelle pièce sur case arrivée
+
     screen.blit(background, (x, y), area=pygame.Rect(x, y, 93.75, 93.75)) #efface l’ancienne case de départ avec le fond
 
 
