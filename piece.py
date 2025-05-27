@@ -6,22 +6,19 @@ def transform_pieces(): #definition fonction pour rescaler les pieces en 90 x 90
         piece = pygame.transform.scale(piece, (90, 90))
         pieces_scaled.append(piece)
 
-W_pawn = pygame.image.load("C:/Users/anton/Documents/Python/Chess/sprite/WhitePawn.png")
-W_king = pygame.image.load("C:/Users/anton/Documents/Python/Chess/sprite/WhiteKing.png")
-W_queen = pygame.image.load("C:/Users/anton/Documents/Python/Chess/sprite/WhiteQueen.png")
-W_bishop = pygame.image.load("C:/Users/anton/Documents/Python/Chess/sprite/WhiteBishop.png")
-W_knight = pygame.image.load("C:/Users/anton/Documents/Python/Chess/sprite/WhiteKnight.png")
-W_rook = pygame.image.load("C:/Users/anton/Documents/Python/Chess/sprite/WhiteRook.png") # Chargement piece blanches
+W_pawn = pygame.image.load("sprite/WhitePawn.png")
+W_king = pygame.image.load("sprite/WhiteKing.png")
+W_queen = pygame.image.load("sprite/WhiteQueen.png")
+W_bishop = pygame.image.load("sprite/WhiteBishop.png")
+W_knight = pygame.image.load("sprite/WhiteKnight.png")
+W_rook = pygame.image.load("sprite/WhiteRook.png") # Chargement piece blanches
 
-B_pawn = pygame.image.load("C:/Users/anton/Documents/Python/Chess/sprite/BlackPawn.png")
-B_king = pygame.image.load("C:/Users/anton/Documents/Python/Chess/sprite/BlackKing.png")
-B_queen = pygame.image.load("C:/Users/anton/Documents/Python/Chess/sprite/BlackQueen.png")
-B_bishop = pygame.image.load("C:/Users/anton/Documents/Python/Chess/sprite/BlackBishop.png")
-B_knight = pygame.image.load("C:/Users/anton/Documents/Python/Chess/sprite/BlackKnight.png")
-B_rook = pygame.image.load("C:/Users/anton/Documents/Python/Chess/sprite/BlackRook.png") # Chargement piece noires
-
-W_tiles = pygame.image.load("C:/Users/anton/Documents/Python/Chess/sprite/W_Tiles.png")
-B_tiles = pygame.image.load("C:/Users/anton/Documents/Python/Chess/sprite/B_Tiles.png")
+B_pawn = pygame.image.load("sprite/BlackPawn.png")
+B_king = pygame.image.load("sprite/BlackKing.png")
+B_queen = pygame.image.load("sprite/BlackQueen.png")
+B_bishop = pygame.image.load("sprite/BlackBishop.png")
+B_knight = pygame.image.load("sprite/BlackKnight.png")
+B_rook = pygame.image.load("sprite/BlackRook.png") # Chargement piece noires
 
 
 pieces = [W_pawn,W_king,W_queen,W_bishop,W_knight,W_rook,B_pawn,B_king,B_queen,B_bishop,B_knight,B_rook] #liste pour utiliser la fonction transform_pieces

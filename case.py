@@ -23,28 +23,28 @@ index = 0
 
 for number in range(1,9):
     a[index] = pygame.Surface((93.75,93.75),pygame.SRCALPHA, 32)
-    #a[index] = a[index].convert_alpha()
+
 
     b[index] = pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32)
-    #b[index] = b[index].convert_alpha()
+
 
     c[index] = pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32)
-    #c[index] = c[index].convert_alpha()
+
 
     d[index] = pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32)
-    #d[index] = d[index].convert_alpha()
+
 
     e[index] = pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32)
-    #e[index] = e[index].convert_alpha()
+
 
     f[index] = pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32)
-    #f[index] = f[index].convert_alpha()
+
 
     g[index] = pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32)
-    #g[index] = g[index].convert_alpha()
+
 
     h[index] = pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32)
-    #h[index] = h[index].convert_alpha()
+
 
     index += 1
 

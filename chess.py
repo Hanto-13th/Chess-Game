@@ -11,15 +11,13 @@ from piece import *
 
 
 
-
-
 running = True #variable initialisation boucle
 
 
 screen = pygame.display.set_mode((750,750),pygame.SCALED) # définition fenêtre principale
 title = pygame.display.set_caption("Chess") #initialisation fenetre principale
 
-background = pygame.image.load("C:/Users/anton/Documents/Python/Chess/sprite/background.png")
+background = pygame.image.load("sprite/background.png")
 screen.blit(background,(0,0)) #chargement du background + affichage
 
 position_starting_game(screen) #appel de la fonction pour la position des pieces en début de partie
@@ -48,12 +46,15 @@ while running: #Boucle principale
             else:
                 click_pos_arrived = event.pos #si une piece est séléctionné
                 arrived_letter_case, arrived_index_1, arrived_index_2 = find_coord(click_pos_arrived)#evenement clique souris + appel et stockage de la fonction détection des coordonnées
-                move_and_blitt(screen,background,start_letter_case,start_index_1,start_index_2,arrived_letter_case,arrived_index_1,arrived_index_2) #appel fonction déplacmeent des pièces
-                selected_piece = 0
+                if arrived_letter_case == start_letter_case and arrived_index_2 == start_index_2: #si la même case est séléctionné alors reset
+                    selected_piece = 0
+                else:
+                    move_and_blitt(screen,background,start_letter_case,start_index_1,start_index_2,arrived_letter_case,arrived_index_1,arrived_index_2)#appel fonction déplacement des pièces
+                    selected_piece = 0
 
 
 
-            pygame.display.flip()#MAJ de l'écran
+                    pygame.display.flip()#MAJ de l'écran
 
 
 

@@ -1,7 +1,8 @@
 import pygame
 pygame.init()
 
-from case import *#import pour stockage surface correspondante dans variable "lettre"
+from case import *#import pour stockage surface correspondante dans variable "letter" ainsi que coord-case pour fonction "move_and_blitt"
+
 
 
 #fonction de détéction de coordonnées avec return de lettre et chiffre pour affichage piece a chaque clique
@@ -59,11 +60,34 @@ def find_coord(pos_click):
 def move_and_blitt(screen,background,start_letter_case,start_index_1,start_index_2,arrived_letter_case,arrived_index_1,arrived_index_2):
 #fonction de déplacement des pièces
 
-    arrived_letter_case[arrived_index_2].blit(start_letter_case[start_index_2], (0, 0))
-    screen.blit(arrived_letter_case[arrived_index_2], coord_case[arrived_index_1][arrived_index_2]) #blitt pièce sur case d'arrivée
 
-    x,y = coord_case[start_index_1][start_index_2]
-    screen.blit(background, (x,y), area=pygame.Rect(x,y,93.75, 93.75)) #blitt morceau background sur case de départ
+    #prise coordonnées des cases de départ et d'arrivée dans des variables
+    x, y = coord_case[start_index_1][start_index_2]
+    z, w = coord_case[arrived_index_1][arrived_index_2]
+
+    screen.blit(background, (z,w), area=pygame.Rect(z,w, 93.75, 93.75)) #blit morceau background sur case arrivée pour enlever pièce
+    arrived_letter_case[arrived_index_2] = start_letter_case[start_index_2] #pièce sur case arrivée devient celle de case de départ
+    screen.blit(arrived_letter_case[arrived_index_2], (z, w)) #blit sur ecran de la position de la nouvelle pièce sur case arrivée
+    screen.blit(background, (x, y), area=pygame.Rect(x, y, 93.75, 93.75)) #efface l’ancienne case de départ avec le fond
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

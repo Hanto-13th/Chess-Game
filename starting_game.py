@@ -18,7 +18,7 @@ def position_starting_game(screen): #fonction de blitt de toutes les positions d
     screen.blit(b[1], coord_case[1][1])
     b[6].blit(B_pawn, (0, 0))
     screen.blit(b[6], coord_case[1][6])
-    b[7].blit(B_rook, (0, 0))
+    b[7].blit(B_knight, (0, 0))
     screen.blit(b[7], coord_case[1][7])
 
     c[0].blit(W_bishop, (0, 0))
