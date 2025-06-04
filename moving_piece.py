@@ -2,6 +2,7 @@ import pygame
 pygame.init()
 
 from case import *#import les  listes "case" et "coord_case" pour fonction "move_and_blitt"
+from piece import *
 
 
 
@@ -48,8 +49,10 @@ def find_coord(pos_click):
 
     return coord_index_x,coord_index_y
 
-def move_and_blitt(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2):
+def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2):
 #fonction de déplacement des pièces
+
+
 
 
     #prise coordonnées des cases de départ et d'arrivée dans des variables
@@ -58,10 +61,19 @@ def move_and_blitt(screen,background,start_index_1,start_index_2,arrived_index_1
 
     screen.blit(background, (z,w), area=pygame.Rect(z,w, 93.75, 93.75)) #blit morceau background sur case arrivée pour enlever pièce
 
-    case[arrived_index_1][arrived_index_2] = case[start_index_1][start_index_2] #pièce sur case arrivée devient celle de case de départ
-    screen.blit(case[arrived_index_1][arrived_index_2], (z, w)) #blit sur ecran de la position de la nouvelle pièce sur case arrivée
+    chessboard[arrived_index_1][arrived_index_2] = chessboard[start_index_1][start_index_2] #pièce sur case arrivée devient celle de case de départ
+    screen.blit(chessboard[arrived_index_1][arrived_index_2], (z, w)) #blit sur ecran de la position de la nouvelle pièce sur case arrivée
 
     screen.blit(background, (x, y), area=pygame.Rect(x, y, 93.75, 93.75)) #efface l’ancienne case de départ avec le fond
+
+def who_is_the_turn(color_turn):
+    if color_turn == "white":
+        color_turn = "black"
+    elif color_turn == "black":
+        color_turn = "white"
+
+
+    return color_turn
 
 
 

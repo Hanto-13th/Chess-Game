@@ -3,8 +3,7 @@ import pygame
 pygame.init()
 
 from starting_game import position_starting_game #import fonction position départ
-from moving_piece import find_coord,move_and_blitt #import fonction détection coordonnées pièces et deplacement pieces
-
+from moving_piece import find_coord,move_and_capture,who_is_the_turn #import fonction détection coordonnées pièces et deplacement pieces
 from piece import *
 
 
@@ -26,6 +25,7 @@ pygame.display.flip() #MAJ de l'écran
 
 
 selected_piece = 0 #variable pour savoir si une piece est séléctionnée
+color_turn = "white"
 
 start_index_1,start_index_2 = None,None
 arrived_index_1, arrived_index_2 = None,None #variable de coordonnées d'arrivée et de sortie
@@ -49,8 +49,12 @@ while running: #Boucle principale
                 if arrived_index_1 == start_index_1 and arrived_index_2 == start_index_2: #si la même case est séléctionné alors reset
                     selected_piece = 0
                 else:
-                    move_and_blitt(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2)#appel fonction déplacement des pièces
+                    move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2)#appel fonction déplacement des pièces
                     selected_piece = 0
+                    color_turn = who_is_the_turn(color_turn)
+
+
+
 
 
 
