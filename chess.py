@@ -3,8 +3,8 @@ import pygame
 pygame.init()
 
 from starting_game import position_starting_game #import fonction position départ
-from moving_piece import find_coord,move_and_capture,who_is_the_turn #import fonction détection coordonnées pièces et deplacement pieces
-from piece import *
+from moving_piece import find_coord, who_is_the_turn,possible_movement  # import fonction détection coordonnées pièces et deplacement pieces
+from case import *
 
 
 
@@ -32,6 +32,7 @@ arrived_index_1, arrived_index_2 = None,None #variable de coordonnées d'arrivé
 
 click_pos_start = None
 click_pos_arrived = None #variable pour stocker les coordonnées
+print(color_turn)
 while running: #Boucle principale
 
     for event in pygame.event.get():
@@ -43,19 +44,18 @@ while running: #Boucle principale
                 click_pos_start = event.pos
                 start_index_1,start_index_2 = find_coord(click_pos_start)#evenement clique souris + appel et stockage de la fonction détection des coordonnées
                 selected_piece = 1
-            else:
-                click_pos_arrived = event.pos #si une piece est séléctionné
+                possible_movement(start_index_1,start_index_2)
+            else:#si une piece est séléctionné
+                click_pos_arrived = event.pos
                 arrived_index_1, arrived_index_2 = find_coord(click_pos_arrived)#evenement clique souris + appel et stockage de la fonction détection des coordonnées
-                if arrived_index_1 == start_index_1 and arrived_index_2 == start_index_2: #si la même case est séléctionné alors reset
+                if (arrived_index_1 == start_index_1 and arrived_index_2 == start_index_2) or (color_turn == chessboard[arrived_index_1][arrived_index_2].color) or (color_turn != chessboard[start_index_1][start_index_2].color):
+                    #si la même case est séléctionné ou si la case d'arrivée est une case de la même couleur que la case de départ alors reset
                     selected_piece = 0
                 else:
-                    move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2)#appel fonction déplacement des pièces
+                    #move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2)#appel fonction déplacement des pièces
                     selected_piece = 0
                     color_turn = who_is_the_turn(color_turn)
-
-
-
-
+                    print(color_turn)
 
 
                     pygame.display.flip()#MAJ de l'écran

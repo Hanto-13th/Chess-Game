@@ -49,24 +49,227 @@ def find_coord(pos_click):
 
     return coord_index_x,coord_index_y
 
-def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2):
+def possible_movement(start_index_1,start_index_2):
 #fonction de déplacement des pièces
+    enable_case = []
+    if chessboard[start_index_1][start_index_2].piece == "pawn" and chessboard[start_index_1][start_index_2].color == "white":
+                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_pawn[0]) == -1:
+                        return
+                else:
+                    enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_pawn[0])
+                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_pawn[1]) == -1:
+                    return
+                else:
+                    enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_pawn[1])
+                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_pawn[2]) == -1:
+                    return
+                else:
+                    enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_pawn[2])
+
+    if chessboard[start_index_1][start_index_2].piece == "pawn" and chessboard[start_index_1][start_index_2].color == "black":
+                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_pawn[0]) == -1:
+                    enable_case.append(None)
+                else:
+                    enable_case.append(chessboard[start_index_1][start_index_2].tab64 + move_pawn[0])
+                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_pawn[1]) == -1:
+                    enable_case.append(None)
+                else:
+                    enable_case.append(chessboard[start_index_1][start_index_2].tab64 + move_pawn[1])
+                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_pawn[2]) == -1:
+                    enable_case.append(None)
+                else:
+                    enable_case.append(chessboard[start_index_1][start_index_2].tab64 + move_pawn[2])
+
+    if chessboard[start_index_1][start_index_2].piece == "king":
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_king[0]) == -1:
+                enable_case.append(None)
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_king[0])
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_king[0]) == -1:
+                enable_case.append(None)
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 + move_king[0])
+
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_king[1]) == -1:
+                enable_case.append(None)
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_king[1])
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_king[1]) == -1:
+                enable_case.append(None)
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 + move_king[1])
+
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_king[2]) == -1:
+                enable_case.append(None)
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_king[2])
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_king[2]) == -1:
+                enable_case.append(None)
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 + move_king[2])
+
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_king[3]) == -1:
+                enable_case.append(None)
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_king[3])
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_king[3]) == -1:
+                enable_case.append(None)
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 + move_king[3])
+
+    if chessboard[start_index_1][start_index_2].piece == "queen":
+        for time in range(1, 9):
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_queen[0] * time) == -1:
+                break
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_queen[0] * time)
+        for time in range(1, 9):
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_queen[0] * time) == -1:
+                break
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 + move_queen[0] * time)
+        for time in range(1, 9):
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_queen[1] * time) == -1:
+                break
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_queen[1] * time)
+        for time in range(1, 9):
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_queen[1] * time) == -1:
+                break
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 + move_queen[1] * time)
+        for time in range(1, 9):
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_queen[2] * time) == -1:
+                break
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_queen[2] * time)
+        for time in range(1, 9):
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_queen[2] * time) == -1:
+                break
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_queen[2] * time)
+        for time in range(1, 9):
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_queen[3] * time) == -1:
+                break
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_queen[3] * time)
+        for time in range(1, 9):
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_queen[3] * time) == -1:
+                break
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_queen[3] * time)
+
+    if chessboard[start_index_1][start_index_2].piece == "bishop":
+        for time in range(1, 9):
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_bishop[0] * time) == -1:
+                break
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_bishop[0] * time)
+        for time in range(1, 9):
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_bishop[0] * time) == -1:
+                break
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 + move_bishop[0] * time)
+        for time in range(1, 9):
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_bishop[1] * time) == -1:
+                break
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_bishop[1] * time)
+        for time in range(1, 9):
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_bishop[1] * time) == -1:
+                break
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 + move_bishop[1] * time)
+
+
+    if chessboard[start_index_1][start_index_2].piece == "knight":
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_knight[0]) == -1:
+                enable_case.append(None)
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_knight[0])
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_knight[0]) == -1:
+                enable_case.append(None)
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 + move_knight[0])
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_knight[1]) == -1:
+                enable_case.append(None)
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_knight[1])
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_knight[1]) == -1:
+                enable_case.append(None)
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 + move_knight[1])
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_knight[2]) == -1:
+                enable_case.append(None)
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_knight[2])
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_knight[2]) == -1:
+                enable_case.append(None)
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 + move_knight[2])
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_knight[3]) == -1:
+                enable_case.append(None)
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_knight[3])
+            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_knight[3]) == -1:
+                enable_case.append(None)
+
+            else:
+                enable_case.append(chessboard[start_index_1][start_index_2].tab64 + move_knight[3])
+
+
+    if chessboard[start_index_1][start_index_2].piece == "rook":
+            for time in range(1,9):
+                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_rook[0] * time) == -1:
+                    break
+
+                else:
+                    enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_rook[0] * time)
+            for time in range(1, 9):
+                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_rook[0] * time) == -1:
+                    break
+
+                else:
+                    enable_case.append(chessboard[start_index_1][start_index_2].tab64 + move_rook[0] * time)
+            for time in range(1, 9):
+                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_rook[1] * time) == -1:
+                    break
+
+                else:
+                    enable_case.append(chessboard[start_index_1][start_index_2].tab64 - move_rook[1] * time)
+            for time in range(1, 9):
+                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_rook[1] * time) == -1:
+                    break
+
+                else:
+                    enable_case.append(chessboard[start_index_1][start_index_2].tab64 + move_rook[1] * time)
 
 
 
 
-    #prise coordonnées des cases de départ et d'arrivée dans des variables
-    x, y = coord_case[start_index_1][start_index_2]
-    z, w = coord_case[arrived_index_1][arrived_index_2]
+    print(enable_case)
+    enable_case.clear()
 
-    screen.blit(background, (z,w), area=pygame.Rect(z,w, 93.75, 93.75)) #blit morceau background sur case arrivée pour enlever pièce
-
-    chessboard[arrived_index_1][arrived_index_2] = chessboard[start_index_1][start_index_2] #pièce sur case arrivée devient celle de case de départ
-    screen.blit(chessboard[arrived_index_1][arrived_index_2], (z, w)) #blit sur ecran de la position de la nouvelle pièce sur case arrivée
-
-    screen.blit(background, (x, y), area=pygame.Rect(x, y, 93.75, 93.75)) #efface l’ancienne case de départ avec le fond
-
-def who_is_the_turn(color_turn):
+def who_is_the_turn(color_turn):#fonction pour savoir qui joue le tour
     if color_turn == "white":
         color_turn = "black"
     elif color_turn == "black":
@@ -74,6 +277,9 @@ def who_is_the_turn(color_turn):
 
 
     return color_turn
+
+
+
 
 
 
