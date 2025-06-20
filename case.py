@@ -12,6 +12,13 @@ class Case:
         return self.color
     def get_pos(self):
         return self.__pos
+    def get_piece(self):
+        return self.piece
+    def get_surface(self):
+        return self.surface
+
+
+
 # Définition de classe pour les cases avec création de leur surface et leur couleur
 #+ methode de classe "get_color" pour stocker les couleurs des pions dans les cases correspondantes
 

@@ -1,4 +1,4 @@
-from case import *
+from case import chessboard,coord_case
 from piece import *
 
 

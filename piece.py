@@ -1,12 +1,10 @@
 import pygame
 
-
 class Pawn:
     def __init__(self, color, sprite,name):
         self.__color = color
         self.__sprite = sprite
         self.__name = name
-        self.moving = (10,)
 
     def get_color(self):
         return self.__color
@@ -20,7 +18,6 @@ class King:
         self.__color = color
         self.__sprite = sprite
         self.__name = name
-        self.moving = (1,9,10,11)
 
     def get_color(self):
         return self.__color
@@ -34,7 +31,6 @@ class Queen:
         self.__color = color
         self.__sprite = sprite
         self.__name = name
-        self.moving = (1, 9, 10, 11)
 
     def get_color(self):
         return self.__color
@@ -48,7 +44,6 @@ class Bishop:
         self.__color = color
         self.__sprite = sprite
         self.__name = name
-        self.moving = (9, 11)
 
     def get_color(self):
         return self.__color
@@ -62,7 +57,6 @@ class Knight:
         self.__color = color
         self.__sprite = sprite
         self.__name = name
-        self.moving = (12, 21, 19, 8)
 
     def get_color(self):
         return self.__color
@@ -76,7 +70,6 @@ class Rook:
         self.__color = color
         self.__sprite = sprite
         self.__name = name
-        self.moving = (1, 10)
 
     def get_color(self):
         return self.__color
@@ -117,8 +110,6 @@ B_bishop = pygame.image.load("sprite/BlackBishop.png")
 B_knight = pygame.image.load("sprite/BlackKnight.png")
 B_rook = pygame.image.load("sprite/BlackRook.png") # Chargement piece noires
 
-Pointer = pygame.image.load("sprite/Pointer.jpg") #Sprite pointer
-
 W_pieces = [W_pawn,W_king,W_queen,W_bishop,W_knight,W_rook]
 B_pieces = [B_pawn,B_king,B_queen,B_bishop,B_knight,B_rook]#liste pour utiliser la boucle de la fonction "transform_pieces"
 
@@ -154,6 +145,8 @@ B_queen = Queen("black",B_queen_sprite,"queen")
 B_bishop = Bishop("black",B_bishop_sprite,"bishop")
 B_knight = Knight("black",B_knight_sprite,"knight")
 B_rook = Rook("black",B_rook_sprite,"rook")
+
+
 
 
 
