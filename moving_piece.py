@@ -1,5 +1,6 @@
 from case import chessboard, tab64_to_tab120#import les  listes "case" et "coord_case" pour fonction "move_and_blitt"
 from piece import *
+from constants import move_pawn,move_king,move_knight,move_queen,move_rook,move_bishop
 
 
 
@@ -47,19 +48,19 @@ def find_coord(pos_click):
     return coord_index_x,coord_index_y
 
 def possible_movement(start_index_1,start_index_2):
-#fonction de déplacement des pièces
+#fonction pour connaitre les cases de chaque pièce en fonction de leur position
     possible_case = []
     if chessboard[start_index_1][start_index_2].piece == "pawn" and chessboard[start_index_1][start_index_2].color == "white":
                 if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_pawn[0]) == -1:
-                        return
+                    possible_case.append(None)
                 else:
                     possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_pawn[0])
                 if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_pawn[1]) == -1:
-                    return
+                    possible_case.append(None)
                 else:
                     possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_pawn[1])
                 if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_pawn[2]) == -1:
-                    return
+                    possible_case.append(None)
                 else:
                     possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_pawn[2])
 
@@ -261,15 +262,11 @@ def possible_movement(start_index_1,start_index_2):
                     possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_rook[1] * time)
 
 
-    enable_case = []
-    for case in possible_case:
-        if case != None:
-            enable_case.append(case)
+    enable_case = list(filter(None,possible_case)) #liste sans None
 
     return enable_case
 
-def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2,enable_case,play):
-#fonction de déplacement des pièces
+def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2,enable_case): #fonction de déplacement des pièces
 
     if chessboard[arrived_index_1][arrived_index_2].tab64 in enable_case:
         start_x, start_y = chessboard[start_index_1][start_index_2].get_pos()
@@ -277,28 +274,32 @@ def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index
 
         screen.blit(background, (arrived_x, arrived_y), area=pygame.Rect(arrived_x, arrived_y, 93.75, 93.75)) #blit morceau background sur case arrivée pour enlever pièce
 
-        chessboard[arrived_index_1][arrived_index_2].surface = chessboard[start_index_1][start_index_2].get_surface() #pièce sur case arrivée devient celle de case de départ
+        chessboard[arrived_index_1][arrived_index_2].surface = chessboard[start_index_1][start_index_2].surface #affichage sur case arrivée devient celle de case de départ
         chessboard[arrived_index_1][arrived_index_2].color = chessboard[start_index_1][start_index_2].get_color() #couleur sur case arrivée devient celle de case de départ
-        chessboard[arrived_index_1][arrived_index_2].piece = chessboard[start_index_1][start_index_2].get_piece()
+        chessboard[arrived_index_1][arrived_index_2].piece = chessboard[start_index_1][start_index_2].piece#pièce sur case arrivée devient celle de case de départ
         chessboard[start_index_1][start_index_2].color = None #efface couleur de la case de départ
-        chessboard[start_index_1][start_index_2].piece = None
+        chessboard[start_index_1][start_index_2].piece = None #efface pièce de la case de départ
         screen.blit(chessboard[arrived_index_1][arrived_index_2].surface, (arrived_x, arrived_y)) #blit sur ecran de la position de la nouvelle pièce sur case arrivée
 
         screen.blit(background, (start_x, start_y), area=pygame.Rect(start_x, start_y, 93.75, 93.75)) #efface l’ancienne case de départ avec le fond
-        play = 1
-        return play
+        return True #une pièce a été joué
 
     else:
-        return play
+        return False #une pièce n'est pas joué
 
-def who_is_the_turn(color_turn,play):#fonction pour savoir qui joue le tour
-    if color_turn == "white" and play == 1:
+def who_is_the_turn(color_turn,play,turn):#fonction pour savoir qui joue le tour
+    if color_turn == "white" and play:
         color_turn = "black"
-    elif color_turn == "black" and play == 1:
+    elif color_turn == "black" and play:
         color_turn = "white"
 
-    play = 0
-    return color_turn,play
+    play = False
+    turn += 1
+    return color_turn,play,turn
+
+def display_turn_and_color(color_turn,turn):
+    print(f"NUMBER TURN: {turn}")
+    print(f"COLOR TURN: {color_turn}\n")
 
 
 

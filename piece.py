@@ -1,7 +1,7 @@
 import pygame
 
-class Pawn:
-    def __init__(self, color, sprite,name):
+class Piece:
+    def __init__(self, color, sprite, name):
         self.__color = color
         self.__sprite = sprite
         self.__name = name
@@ -13,124 +13,47 @@ class Pawn:
     def get_name(self):
         return self.__name
 
-class King:
+
+class Pawn(Piece):
     def __init__(self, color, sprite,name):
-        self.__color = color
-        self.__sprite = sprite
-        self.__name = name
+        super().__init__(color,sprite,name)
 
-    def get_color(self):
-        return self.__color
-    def get_sprite(self):
-        return self.__sprite
-    def get_name(self):
-        return self.__name
 
-class Queen:
+class King(Piece):
     def __init__(self, color, sprite,name):
-        self.__color = color
-        self.__sprite = sprite
-        self.__name = name
+        super().__init__(color,sprite,name)
 
-    def get_color(self):
-        return self.__color
-    def get_sprite(self):
-        return self.__sprite
-    def get_name(self):
-        return self.__name
-
-class Bishop:
+class Queen(Piece):
     def __init__(self, color, sprite,name):
-        self.__color = color
-        self.__sprite = sprite
-        self.__name = name
+        super().__init__(color,sprite,name)
 
-    def get_color(self):
-        return self.__color
-    def get_sprite(self):
-        return self.__sprite
-    def get_name(self):
-        return self.__name
-
-class Knight:
+class Bishop(Piece):
     def __init__(self, color, sprite,name):
-        self.__color = color
-        self.__sprite = sprite
-        self.__name = name
+        super().__init__(color,sprite,name)
 
-    def get_color(self):
-        return self.__color
-    def get_sprite(self):
-        return self.__sprite
-    def get_name(self):
-        return self.__name
-
-class Rook:
+class Knight(Piece):
     def __init__(self, color, sprite,name):
-        self.__color = color
-        self.__sprite = sprite
-        self.__name = name
+        super().__init__(color,sprite,name)
 
-    def get_color(self):
-        return self.__color
-    def get_sprite(self):
-        return self.__sprite
-    def get_name(self):
-        return self.__name
-# Définition de classe pour chaque pièces avec leur couleur et leur sprite + methode de classe "get_sprite" pour blitt sprite sur case
-# + "get_color" pour stocker la couleur de chaque piece dans les cases correspondantes
-
-move_pawn = (10,11,9)
-move_king = (1,9,10,11)
-move_queen = (1, 9, 10, 11)
-move_bishop = (9, 11)
-move_knight = (12, 21, 19, 8)
-move_rook = (1, 10)
-
-def transform_pieces(): #definition fonction pour rescaler les pieces en 90 x 90
-    for W_piece in W_pieces:
-        W_piece = pygame.transform.scale(W_piece, (90, 90))
-        W_pieces_scaled.append(W_piece)
-    for B_piece in B_pieces:
-        B_piece = pygame.transform.scale(B_piece, (90, 90))
-        B_pieces_scaled.append(B_piece)
+class Rook(Piece):
+    def __init__(self, color, sprite,name):
+        super().__init__(color,sprite,name)
+# Définition de classe pour chaque pièces herité de la classe "Piece" avec methode de classe pour échanger infos avec les cases
 
 
-W_pawn = pygame.image.load("sprite/WhitePawn.png")
-W_king = pygame.image.load("sprite/WhiteKing.png")
-W_queen = pygame.image.load("sprite/WhiteQueen.png")
-W_bishop = pygame.image.load("sprite/WhiteBishop.png")
-W_knight = pygame.image.load("sprite/WhiteKnight.png")
-W_rook = pygame.image.load("sprite/WhiteRook.png") # Chargement piece blanches
+W_pawn_sprite = pygame.image.load("sprite/WhitePawn.png")
+W_king_sprite = pygame.image.load("sprite/WhiteKing.png")
+W_queen_sprite = pygame.image.load("sprite/WhiteQueen.png")
+W_bishop_sprite = pygame.image.load("sprite/WhiteBishop.png")
+W_knight_sprite = pygame.image.load("sprite/WhiteKnight.png")
+W_rook_sprite = pygame.image.load("sprite/WhiteRook.png") # Chargement sprite piece blanches
 
-B_pawn = pygame.image.load("sprite/BlackPawn.png")
-B_king = pygame.image.load("sprite/BlackKing.png")
-B_queen = pygame.image.load("sprite/BlackQueen.png")
-B_bishop = pygame.image.load("sprite/BlackBishop.png")
-B_knight = pygame.image.load("sprite/BlackKnight.png")
-B_rook = pygame.image.load("sprite/BlackRook.png") # Chargement piece noires
-
-W_pieces = [W_pawn,W_king,W_queen,W_bishop,W_knight,W_rook]
-B_pieces = [B_pawn,B_king,B_queen,B_bishop,B_knight,B_rook]#liste pour utiliser la boucle de la fonction "transform_pieces"
-
-W_pieces_scaled = []
-B_pieces_scaled = []#nouvelle liste pour stocker fonction transform_pieces
-
-transform_pieces() #application de la fonction
-
-W_pawn_sprite = W_pieces_scaled[0]
-W_king_sprite = W_pieces_scaled[1]
-W_queen_sprite = W_pieces_scaled[2]
-W_bishop_sprite = W_pieces_scaled[3]
-W_knight_sprite = W_pieces_scaled[4]
-W_rook_sprite = W_pieces_scaled[5]
-
-B_pawn_sprite = B_pieces_scaled[0]
-B_king_sprite = B_pieces_scaled[1]
-B_queen_sprite = B_pieces_scaled[2]
-B_bishop_sprite = B_pieces_scaled[3]
-B_knight_sprite = B_pieces_scaled[4]
-B_rook_sprite = B_pieces_scaled[5] # remise des variables pour une facilité d'utilisation dans chaque instance de classe
+B_pawn_sprite = pygame.image.load("sprite/BlackPawn.png")
+B_king_sprite = pygame.image.load("sprite/BlackKing.png")
+B_queen_sprite = pygame.image.load("sprite/BlackQueen.png")
+B_bishop_sprite = pygame.image.load("sprite/BlackBishop.png")
+B_knight_sprite = pygame.image.load("sprite/BlackKnight.png")
+B_rook_sprite = pygame.image.load("sprite/BlackRook.png") # Chargement sprite piece noires
 
 W_pawn = Pawn("white",W_pawn_sprite,"pawn") #création d 'instance de classe pour chaque pièce blanche (avec nom et sprite transformé par fonction "transform_pieces")
 W_king = King("white",W_king_sprite,"king")
