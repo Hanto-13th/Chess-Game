@@ -46,7 +46,7 @@ while running: #Boucle principale
                 arrived_index_1, arrived_index_2 = find_coord(click_pos_arrived)#evenement clique souris + appel et stockage de la fonction détection des coordonnées
                 if (arrived_index_1 == start_index_1 and arrived_index_2 == start_index_2) \
                     or (color_turn == chessboard[arrived_index_1][arrived_index_2].color) \
-                    or (color_turn != chessboard[start_index_1][start_index_2].color):
+                    or (color_turn != chessboard[start_index_1][start_index_2].piece.color):
                     #si la même case est séléctionné ou si la case d'arrivée est une case de la même couleur que la case de départ alors reset
                     remove_pointer(screen, background, enable_case)
                     selected_piece = 0

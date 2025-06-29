@@ -1,6 +1,6 @@
 from case import chessboard, tab64_to_tab120#import les  listes "case" et "coord_case" pour fonction "move_and_blitt"
 from piece import *
-from constants import move_pawn,move_king,move_knight,move_queen,move_rook,move_bishop
+from constants import move_pawn_white,move_pawn_black,move_king,move_knight,move_queen,move_rook,move_bishop
 
 
 
@@ -49,222 +49,144 @@ def find_coord(pos_click):
 
 def possible_movement(start_index_1,start_index_2):
 #fonction pour connaitre les cases de chaque pièce en fonction de leur position
+    case_with_piece = []
     possible_case = []
-    if chessboard[start_index_1][start_index_2].piece == "pawn" and chessboard[start_index_1][start_index_2].color == "white":
-                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_pawn[0]) == -1:
-                    possible_case.append(None)
-                else:
-                    possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_pawn[0])
-                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_pawn[1]) == -1:
-                    possible_case.append(None)
-                else:
-                    possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_pawn[1])
-                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_pawn[2]) == -1:
-                    possible_case.append(None)
-                else:
-                    possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_pawn[2])
-
-    if chessboard[start_index_1][start_index_2].piece == "pawn" and chessboard[start_index_1][start_index_2].color == "black":
-                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_pawn[0]) == -1:
-                    possible_case.append(None)
-                else:
-                    possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_pawn[0])
-                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_pawn[1]) == -1:
-                    possible_case.append(None)
-                else:
-                    possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_pawn[1])
-                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_pawn[2]) == -1:
-                    possible_case.append(None)
-                else:
-                    possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_pawn[2])
-
-    if chessboard[start_index_1][start_index_2].piece == "king":
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_king[0]) == -1:
-                possible_case.append(None)
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_king[0])
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_king[0]) == -1:
-                possible_case.append(None)
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_king[0])
-
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_king[1]) == -1:
-                possible_case.append(None)
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_king[1])
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_king[1]) == -1:
-                possible_case.append(None)
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_king[1])
-
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_king[2]) == -1:
-                possible_case.append(None)
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_king[2])
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_king[2]) == -1:
-                possible_case.append(None)
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_king[2])
-
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_king[3]) == -1:
-                possible_case.append(None)
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_king[3])
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_king[3]) == -1:
-                possible_case.append(None)
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_king[3])
-
-    if chessboard[start_index_1][start_index_2].piece == "queen":
-        for time in range(1, 9):
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_queen[0] * time) == -1:
-                break
-
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_queen[0] * time)
-        for time in range(1, 9):
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_queen[0] * time) == -1:
-                break
-
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_queen[0] * time)
-        for time in range(1, 9):
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_queen[1] * time) == -1:
-                break
-
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_queen[1] * time)
-        for time in range(1, 9):
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_queen[1] * time) == -1:
-                break
-
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_queen[1] * time)
-        for time in range(1, 9):
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_queen[2] * time) == -1:
-                break
-
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_queen[2] * time)
-        for time in range(1, 9):
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_queen[2] * time) == -1:
-                break
-
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_queen[2] * time)
-        for time in range(1, 9):
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_queen[3] * time) == -1:
-                break
-
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_queen[3] * time)
-        for time in range(1, 9):
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_queen[3] * time) == -1:
-                break
-
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_queen[3] * time)
-
-    if chessboard[start_index_1][start_index_2].piece == "bishop":
-        for time in range(1, 9):
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_bishop[0] * time) == -1:
-                break
-
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_bishop[0] * time)
-        for time in range(1, 9):
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_bishop[0] * time) == -1:
-                break
-
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_bishop[0] * time)
-        for time in range(1, 9):
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_bishop[1] * time) == -1:
-                break
-
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_bishop[1] * time)
-        for time in range(1, 9):
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_bishop[1] * time) == -1:
-                break
-
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_bishop[1] * time)
+    for row in chessboard:
+        for case in row:
+            if case.piece is not None:
+                case_with_piece.append(case.tab64)
 
 
-    if chessboard[start_index_1][start_index_2].piece == "knight":
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_knight[0]) == -1:
-                possible_case.append(None)
+    if chessboard[start_index_1][start_index_2].piece.name == "pawn" and chessboard[start_index_1][start_index_2].piece.color == "white":
+        start_tab64 = chessboard[start_index_1][start_index_2].tab64
+        play_once = chessboard[start_index_1][start_index_2].piece.play_one_time
+        directions = move_pawn_white
 
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_knight[0])
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_knight[0]) == -1:
-                possible_case.append(None)
-
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_knight[0])
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_knight[1]) == -1:
-                possible_case.append(None)
-
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_knight[1])
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_knight[1]) == -1:
-                possible_case.append(None)
-
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_knight[1])
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_knight[2]) == -1:
-                possible_case.append(None)
-
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_knight[2])
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_knight[2]) == -1:
-                possible_case.append(None)
-
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_knight[2])
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_knight[3]) == -1:
-                possible_case.append(None)
-
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_knight[3])
-            if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_knight[3]) == -1:
-                possible_case.append(None)
-
-            else:
-                possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_knight[3])
+        for direction in directions:
+            if direction == -10: # si on avance
+                next_tab64 = start_tab64 + direction #on ajoute direction a pos départ
+                if tab64_to_tab120(next_tab64) != -1 or next_tab64 not in case_with_piece:#si la case ne sort pas du tableau ou ne rencontre pas de piece
+                    possible_case.append(next_tab64) #on l ajoute
+            if direction == -20 and play_once == 0:
+                next_tab64 = start_tab64 + direction  # on ajoute direction a pos départ
+                if tab64_to_tab120(next_tab64) != -1 or next_tab64 not in case_with_piece:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
+                    possible_case.append(next_tab64)  # on l ajoute
+                    chessboard[start_index_1][start_index_2].piece.play_one_time += 1
+            if direction == -11 and start_tab64 + direction in case_with_piece:
+                next_tab64 = start_tab64 + direction  # on ajoute direction a pos départ
+                if tab64_to_tab120(next_tab64) != -1:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
+                    possible_case.append(next_tab64)  # on l ajoute
+            if direction == -9 and start_tab64 + direction in case_with_piece:
+                next_tab64 = start_tab64 + direction  # on ajoute direction a pos départ
+                if tab64_to_tab120(next_tab64) != -1:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
+                    possible_case.append(next_tab64)  # on l ajoute
 
 
-    if chessboard[start_index_1][start_index_2].piece == "rook":
-            for time in range(1,9):
-                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_rook[0] * time) == -1:
+
+    if chessboard[start_index_1][start_index_2].piece.name == "pawn" and chessboard[start_index_1][start_index_2].piece.color == "black":
+        start_tab64 = chessboard[start_index_1][start_index_2].tab64
+        play_once = chessboard[start_index_1][start_index_2].piece.play_one_time
+        directions = move_pawn_black
+        for direction in directions:
+            if direction == 10:  # si on avance
+                next_tab64 = start_tab64 + direction  # on ajoute direction a pos départ
+                if tab64_to_tab120(
+                        next_tab64) != -1 or next_tab64 not in case_with_piece:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
+                    possible_case.append(next_tab64)  # on l ajoute
+            if direction == 20 and play_once == 0:
+                next_tab64 = start_tab64 + direction  # on ajoute direction a pos départ
+                if tab64_to_tab120(
+                        next_tab64) != -1 or next_tab64 not in case_with_piece:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
+                    possible_case.append(next_tab64)  # on l ajoute
+                    chessboard[start_index_1][start_index_2].piece.play_one_time += 1
+            if direction == 11 and start_tab64 + direction in case_with_piece:
+                next_tab64 = start_tab64 + direction  # on ajoute direction a pos départ
+                if tab64_to_tab120(next_tab64) != -1:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
+                    possible_case.append(next_tab64)  # on l ajoute
+            if direction == 9 and start_tab64 + direction in case_with_piece:
+                next_tab64 = start_tab64 + direction  # on ajoute direction a pos départ
+                if tab64_to_tab120(next_tab64) != -1:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
+                    possible_case.append(next_tab64)  # on l ajoute
+
+    if chessboard[start_index_1][start_index_2].piece.name == "king":
+        start_tab64 = chessboard[start_index_1][start_index_2].tab64
+        directions = move_king
+
+        for direction in directions:
+                next_tab64 = start_tab64 + direction
+                if tab64_to_tab120(next_tab64) != -1 or next_tab64 not in case_with_piece:
+                    possible_case.append(next_tab64)  # en dehors du plateau
+
+
+
+    if chessboard[start_index_1][start_index_2].piece.name == "queen":
+        start_tab64 = chessboard[start_index_1][start_index_2].tab64
+        directions = move_queen
+
+        for direction in directions:
+            time = 1
+            while True:
+                next_tab64 = start_tab64 + direction * time
+                if tab64_to_tab120(next_tab64) == -1:
+                    break  # en dehors du plateau
+
+                possible_case.append(next_tab64)
+
+                if next_tab64 in case_with_piece:
                     break
 
-                else:
-                    possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_rook[0] * time)
-            for time in range(1, 9):
-                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_rook[0] * time) == -1:
+                time += 1
+
+    if chessboard[start_index_1][start_index_2].piece.name == "bishop":
+        start_tab64 = chessboard[start_index_1][start_index_2].tab64
+        directions = move_bishop
+
+        for direction in directions:
+            time = 1
+            while True:
+                next_tab64 = start_tab64 + direction * time
+                if tab64_to_tab120(next_tab64) == -1:
+                    break  # en dehors du plateau
+
+                possible_case.append(next_tab64)
+
+                if next_tab64 in case_with_piece:
                     break
 
-                else:
-                    possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_rook[0] * time)
-            for time in range(1, 9):
-                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 - move_rook[1] * time) == -1:
+                time += 1
+
+
+    if chessboard[start_index_1][start_index_2].piece.name == "knight":
+        start_tab64 = chessboard[start_index_1][start_index_2].tab64
+        directions = move_knight
+
+        for direction in directions:
+                next_tab64 = start_tab64 + direction
+                if tab64_to_tab120(next_tab64) != -1 or next_tab64 not in case_with_piece:
+
+                    possible_case.append(next_tab64)
+
+
+    if chessboard[start_index_1][start_index_2].piece.name == "rook":
+        start_tab64 = chessboard[start_index_1][start_index_2].tab64
+        directions = move_rook
+
+        for direction in directions:
+            time = 1
+            while True:
+                next_tab64 = start_tab64 + direction * time
+                if tab64_to_tab120(next_tab64) == -1:
+                    break  # en dehors du plateau
+
+                possible_case.append(next_tab64)
+
+                if next_tab64 in case_with_piece:
                     break
 
-                else:
-                    possible_case.append(chessboard[start_index_1][start_index_2].tab64 - move_rook[1] * time)
-            for time in range(1, 9):
-                if tab64_to_tab120(chessboard[start_index_1][start_index_2].tab64 + move_rook[1] * time) == -1:
-                    break
-
-                else:
-                    possible_case.append(chessboard[start_index_1][start_index_2].tab64 + move_rook[1] * time)
+                time += 1
 
 
-    enable_case = list(filter(None,possible_case)) #liste sans None
-
-    return enable_case
+    return possible_case
 
 def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2,enable_case): #fonction de déplacement des pièces
 
@@ -275,9 +197,9 @@ def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index
         screen.blit(background, (arrived_x, arrived_y), area=pygame.Rect(arrived_x, arrived_y, 93.75, 93.75)) #blit morceau background sur case arrivée pour enlever pièce
 
         chessboard[arrived_index_1][arrived_index_2].surface = chessboard[start_index_1][start_index_2].surface #affichage sur case arrivée devient celle de case de départ
-        chessboard[arrived_index_1][arrived_index_2].color = chessboard[start_index_1][start_index_2].get_color() #couleur sur case arrivée devient celle de case de départ
-        chessboard[arrived_index_1][arrived_index_2].piece = chessboard[start_index_1][start_index_2].piece#pièce sur case arrivée devient celle de case de départ
-        chessboard[start_index_1][start_index_2].color = None #efface couleur de la case de départ
+        chessboard[arrived_index_1][arrived_index_2].piece = chessboard[start_index_1][start_index_2].piece  # pièce sur case arrivée devient celle de case de départ
+        chessboard[arrived_index_1][arrived_index_2].color = chessboard[start_index_1][start_index_2].piece.color
+        chessboard[start_index_1][start_index_2].color = None
         chessboard[start_index_1][start_index_2].piece = None #efface pièce de la case de départ
         screen.blit(chessboard[arrived_index_1][arrived_index_2].surface, (arrived_x, arrived_y)) #blit sur ecran de la position de la nouvelle pièce sur case arrivée
 

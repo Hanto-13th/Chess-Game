@@ -28,10 +28,11 @@ TAB120 = (
 )
 #tableau 120 pour méthode "mailbox" de Robert Hyatt
 
-move_pawn = (10,11,9)
-move_king = (1,9,10,11)
-move_queen = (1, 9, 10, 11)
-move_bishop = (9, 11)
-move_knight = (12, 21, 19, 8)
-move_rook = (1, 10)
+move_pawn_white = (-10,-11,-9,-20)
+move_pawn_black = (10,11,9,20)
+move_king = (1,9,10,11,-1,-9,-10,-11)
+move_queen = (1, 9, 10, 11,-1,-9,-10,-11)
+move_bishop = (9, 11,-9,-11)
+move_knight = (12, 21, 19, 8,-12,-21,-19,-8)
+move_rook = (1, 10,-1,-10)
 #variable de vecteur de déplacement de chaque pièce

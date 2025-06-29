@@ -6,7 +6,8 @@ Pointer = pygame.image.load("sprite/Pointer.png") #Sprite pointer
 def add_pointer(screen,enable_case,color_turn,start_index_1, start_index_2): #fonction pour afficher le pointeur
     for row in chessboard:
         for case in row:
-                if case.tab64 in enable_case and chessboard[start_index_1][start_index_2].color == color_turn: #si la case est dans la liste des cases possibles et que
+                if case.tab64 in enable_case and chessboard[start_index_1][start_index_2].piece.color == color_turn \
+                    and chessboard[start_index_1][start_index_2].piece.color != case.color: #si la case est dans la liste des cases possibles et que
                     #c'est a la bonne couleur de jouer
                     x,y = case.get_pos()
                     screen.blit(Pointer, (x, y))
