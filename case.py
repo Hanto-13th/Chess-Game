@@ -2,12 +2,13 @@ import pygame
 from constants import COORD_CASE, TAB120
 
 class Case:
-    def __init__(self,surface,pos,piece,tab64,color):
+    def __init__(self,surface,pos,piece,tab64,color,play_once):
         self.surface = surface
         self.__pos = pos
         self.piece = piece
         self.tab64 = tab64
         self.color = color
+        self.play_once = play_once
 
     def get_pos(self):
         return self.__pos
@@ -35,21 +36,21 @@ index = 0
 tab64 = 91
 
 for number in range(1,9): #boucle pour création des instances de classe de chaque cases sur le plateau "chessboard"
-    chessboard[0][index] = Case(pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32),COORD_CASE[0][index],None,tab64,None)
+    chessboard[0][index] = Case(pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32),COORD_CASE[0][index],None,tab64,None,0)
 
-    chessboard[1][index] = Case(pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32),COORD_CASE[1][index],None,tab64 + 1,None)
+    chessboard[1][index] = Case(pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32),COORD_CASE[1][index],None,tab64 + 1,None,0)
 
-    chessboard[2][index] = Case(pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32),COORD_CASE[2][index],None,tab64 + 2,None)
+    chessboard[2][index] = Case(pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32),COORD_CASE[2][index],None,tab64 + 2,None,0)
 
-    chessboard[3][index] = Case(pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32),COORD_CASE[3][index],None,tab64 + 3,None)
+    chessboard[3][index] = Case(pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32),COORD_CASE[3][index],None,tab64 + 3,None,0)
 
-    chessboard[4][index] = Case(pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32),COORD_CASE[4][index],None,tab64 + 4,None)
+    chessboard[4][index] = Case(pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32),COORD_CASE[4][index],None,tab64 + 4,None,0)
 
-    chessboard[5][index] = Case(pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32),COORD_CASE[5][index],None,tab64 + 5,None)
+    chessboard[5][index] = Case(pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32),COORD_CASE[5][index],None,tab64 + 5,None,0)
 
-    chessboard[6][index] = Case(pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32),COORD_CASE[6][index],None,tab64 + 6,None)
+    chessboard[6][index] = Case(pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32),COORD_CASE[6][index],None,tab64 + 6,None,0)
 
-    chessboard[7][index] = Case(pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32),COORD_CASE[7][index],None,tab64 + 7,None)
+    chessboard[7][index] = Case(pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32),COORD_CASE[7][index],None,tab64 + 7,None,0)
 
     tab64 -= 10
     index += 1

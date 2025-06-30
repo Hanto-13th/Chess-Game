@@ -44,7 +44,6 @@ def find_coord(pos_click):
     elif 656.25 < y < 750:
         coord_index_y = 0
 
-
     return coord_index_x,coord_index_y
 
 def possible_movement(start_index_1,start_index_2):
@@ -59,19 +58,17 @@ def possible_movement(start_index_1,start_index_2):
 
     if chessboard[start_index_1][start_index_2].piece.name == "pawn" and chessboard[start_index_1][start_index_2].piece.color == "white":
         start_tab64 = chessboard[start_index_1][start_index_2].tab64
-        play_once = chessboard[start_index_1][start_index_2].piece.play_one_time
         directions = move_pawn_white
 
         for direction in directions:
             if direction == -10: # si on avance
                 next_tab64 = start_tab64 + direction #on ajoute direction a pos départ
-                if tab64_to_tab120(next_tab64) != -1 or next_tab64 not in case_with_piece:#si la case ne sort pas du tableau ou ne rencontre pas de piece
+                if tab64_to_tab120(next_tab64) != -1 and next_tab64 not in case_with_piece:#si la case ne sort pas du tableau ou ne rencontre pas de piece
                     possible_case.append(next_tab64) #on l ajoute
-            if direction == -20 and play_once == 0:
-                next_tab64 = start_tab64 + direction  # on ajoute direction a pos départ
+            if chessboard[start_index_1][start_index_2].play_once == 0:
+                next_tab64 = start_tab64 - 20  # on ajoute direction a pos départ
                 if tab64_to_tab120(next_tab64) != -1 or next_tab64 not in case_with_piece:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
                     possible_case.append(next_tab64)  # on l ajoute
-                    chessboard[start_index_1][start_index_2].piece.play_one_time += 1
             if direction == -11 and start_tab64 + direction in case_with_piece:
                 next_tab64 = start_tab64 + direction  # on ajoute direction a pos départ
                 if tab64_to_tab120(next_tab64) != -1:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
@@ -85,20 +82,16 @@ def possible_movement(start_index_1,start_index_2):
 
     if chessboard[start_index_1][start_index_2].piece.name == "pawn" and chessboard[start_index_1][start_index_2].piece.color == "black":
         start_tab64 = chessboard[start_index_1][start_index_2].tab64
-        play_once = chessboard[start_index_1][start_index_2].piece.play_one_time
         directions = move_pawn_black
         for direction in directions:
             if direction == 10:  # si on avance
                 next_tab64 = start_tab64 + direction  # on ajoute direction a pos départ
-                if tab64_to_tab120(
-                        next_tab64) != -1 or next_tab64 not in case_with_piece:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
+                if tab64_to_tab120(next_tab64) != -1 and next_tab64 not in case_with_piece:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
                     possible_case.append(next_tab64)  # on l ajoute
-            if direction == 20 and play_once == 0:
-                next_tab64 = start_tab64 + direction  # on ajoute direction a pos départ
-                if tab64_to_tab120(
-                        next_tab64) != -1 or next_tab64 not in case_with_piece:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
+            if chessboard[start_index_1][start_index_2].play_once == 0:
+                next_tab64 = start_tab64 + 20  # on ajoute direction a pos départ
+                if tab64_to_tab120(next_tab64) != -1 or next_tab64 not in case_with_piece:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
                     possible_case.append(next_tab64)  # on l ajoute
-                    chessboard[start_index_1][start_index_2].piece.play_one_time += 1
             if direction == 11 and start_tab64 + direction in case_with_piece:
                 next_tab64 = start_tab64 + direction  # on ajoute direction a pos départ
                 if tab64_to_tab120(next_tab64) != -1:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
@@ -199,6 +192,8 @@ def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index
         chessboard[arrived_index_1][arrived_index_2].surface = chessboard[start_index_1][start_index_2].surface #affichage sur case arrivée devient celle de case de départ
         chessboard[arrived_index_1][arrived_index_2].piece = chessboard[start_index_1][start_index_2].piece  # pièce sur case arrivée devient celle de case de départ
         chessboard[arrived_index_1][arrived_index_2].color = chessboard[start_index_1][start_index_2].piece.color
+        chessboard[start_index_1][start_index_2].play_once += 1
+        chessboard[arrived_index_1][arrived_index_2].play_once += 1
         chessboard[start_index_1][start_index_2].color = None
         chessboard[start_index_1][start_index_2].piece = None #efface pièce de la case de départ
         screen.blit(chessboard[arrived_index_1][arrived_index_2].surface, (arrived_x, arrived_y)) #blit sur ecran de la position de la nouvelle pièce sur case arrivée
