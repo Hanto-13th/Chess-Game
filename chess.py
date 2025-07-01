@@ -8,6 +8,7 @@ from pointer import * #import du sprite ainsi que les fonctions d'affichage et d
 from constants import SCREEN_H,SCREEN_W
 
 
+
 screen = pygame.display.set_mode((SCREEN_H,SCREEN_W),pygame.SCALED) # définition fenêtre principale
 title = pygame.display.set_caption("Chess") #initialisation fenetre principale
 
@@ -20,6 +21,7 @@ color_turn = "white"
 turn = 1 #variable pour gestion tour
 start_index_1,start_index_2 = None,None
 arrived_index_1, arrived_index_2 = None,None #variable de coordonnées d'arrivée et de sortie
+castling_little,castling_long = None,None
 enable_case = [] #liste pour case de déplacement valide
 
 position_starting_game(screen) #appel de la fonction pour la position des pieces en début de partie
@@ -37,7 +39,7 @@ while running: #Boucle principale
             if selected_piece == 0:#si aucune piece n'est séléctionné
                 click_pos_start = event.pos
                 start_index_1,start_index_2 = find_coord(click_pos_start)#evenement clique souris + appel et stockage de la fonction détection des coordonnées
-                enable_case = possible_movement(start_index_1, start_index_2) #stockage des cases de déplacement possible
+                enable_case,castling_little,castling_long = possible_movement(start_index_1, start_index_2) #stockage des cases de déplacement possible
                 add_pointer(screen,enable_case,color_turn,start_index_1, start_index_2) #affichage pointeur
                 selected_piece = 1
 
@@ -52,7 +54,7 @@ while running: #Boucle principale
                     selected_piece = 0
                 else:
                     remove_pointer(screen,background,enable_case) #désaffichage pointeur
-                    play = move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2,enable_case)#appel fonction déplacement des pièces
+                    play = move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2,enable_case,castling_little,castling_long)#appel fonction déplacement des pièces
                     selected_piece = 0
                     color_turn,play,turn = who_is_the_turn(color_turn,play,turn)
                     display_turn_and_color(color_turn,turn)

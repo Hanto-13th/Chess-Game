@@ -36,3 +36,4 @@ move_bishop = (9, 11,-9,-11)
 move_knight = (12, 21, 19, 8,-12,-21,-19,-8)
 move_rook = (1, 10,-1,-10)
 #variable de vecteur de déplacement de chaque pièce
+

@@ -1,6 +1,7 @@
 from case import chessboard, tab64_to_tab120#import les  listes "case" et "coord_case" pour fonction "move_and_blitt"
 from piece import *
 from constants import move_pawn_white,move_pawn_black,move_king,move_knight,move_queen,move_rook,move_bishop
+from rules import is_castling
 
 
 
@@ -50,6 +51,7 @@ def possible_movement(start_index_1,start_index_2):
 #fonction pour connaitre les cases de chaque pièce en fonction de leur position
     case_with_piece = []
     possible_case = []
+    castling_little, castling_long = None,None
     for row in chessboard:
         for case in row:
             if case.piece is not None:
@@ -67,7 +69,7 @@ def possible_movement(start_index_1,start_index_2):
                     possible_case.append(next_tab64) #on l ajoute
             if chessboard[start_index_1][start_index_2].play_once == 0:
                 next_tab64 = start_tab64 - 20  # on ajoute direction a pos départ
-                if tab64_to_tab120(next_tab64) != -1 or next_tab64 not in case_with_piece:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
+                if tab64_to_tab120(next_tab64) != -1 and next_tab64 not in case_with_piece:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
                     possible_case.append(next_tab64)  # on l ajoute
             if direction == -11 and start_tab64 + direction in case_with_piece:
                 next_tab64 = start_tab64 + direction  # on ajoute direction a pos départ
@@ -90,14 +92,14 @@ def possible_movement(start_index_1,start_index_2):
                     possible_case.append(next_tab64)  # on l ajoute
             if chessboard[start_index_1][start_index_2].play_once == 0:
                 next_tab64 = start_tab64 + 20  # on ajoute direction a pos départ
-                if tab64_to_tab120(next_tab64) != -1 or next_tab64 not in case_with_piece:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
+                if tab64_to_tab120(next_tab64) != -1 and next_tab64 not in case_with_piece:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
                     possible_case.append(next_tab64)  # on l ajoute
             if direction == 11 and start_tab64 + direction in case_with_piece:
                 next_tab64 = start_tab64 + direction  # on ajoute direction a pos départ
                 if tab64_to_tab120(next_tab64) != -1:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
                     possible_case.append(next_tab64)  # on l ajoute
             if direction == 9 and start_tab64 + direction in case_with_piece:
-                next_tab64 = start_tab64 + direction  # on ajoute direction a pos départ
+                next_tab64 = start_tab64 + direction
                 if tab64_to_tab120(next_tab64) != -1:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
                     possible_case.append(next_tab64)  # on l ajoute
 
@@ -105,10 +107,16 @@ def possible_movement(start_index_1,start_index_2):
         start_tab64 = chessboard[start_index_1][start_index_2].tab64
         directions = move_king
 
+        if chessboard[start_index_1][start_index_2].play_once == 0:
+            castling_little, castling_long = is_castling(chessboard[start_index_1][start_index_2].piece.color,start_tab64)
+            if castling_little not in case_with_piece:
+                possible_case.append(castling_little)  # en dehors du plateau
+            if castling_long not in case_with_piece:
+                possible_case.append(castling_long)
         for direction in directions:
-                next_tab64 = start_tab64 + direction
-                if tab64_to_tab120(next_tab64) != -1 or next_tab64 not in case_with_piece:
-                    possible_case.append(next_tab64)  # en dehors du plateau
+            next_tab64 = start_tab64 + direction
+            if tab64_to_tab120(next_tab64) != -1 or next_tab64 not in case_with_piece:
+                possible_case.append(next_tab64)  # en dehors du plateau
 
 
 
@@ -179,9 +187,12 @@ def possible_movement(start_index_1,start_index_2):
                 time += 1
 
 
-    return possible_case
+    return possible_case,castling_little,castling_long
 
-def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2,enable_case): #fonction de déplacement des pièces
+def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2,enable_case,castling_little,castling_long): #fonction de déplacement des pièces
+    #if castling_little or castling_long est dans enable case
+    #alors fonction casltling qui prend la direction( castle_little ou long)
+    #fais meme effet que move and capture
 
     if chessboard[arrived_index_1][arrived_index_2].tab64 in enable_case:
         start_x, start_y = chessboard[start_index_1][start_index_2].get_pos()
