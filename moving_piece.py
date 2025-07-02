@@ -1,7 +1,7 @@
 from case import chessboard, tab64_to_tab120#import les  listes "case" et "coord_case" pour fonction "move_and_blitt"
 from piece import *
 from constants import move_pawn_white,move_pawn_black,move_king,move_knight,move_queen,move_rook,move_bishop
-from rules import is_castling
+from rules import is_castling,king_side_castle,queen_side_castle
 
 
 
@@ -190,11 +190,18 @@ def possible_movement(start_index_1,start_index_2):
     return possible_case,castling_little,castling_long
 
 def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2,enable_case,castling_little,castling_long): #fonction de déplacement des pièces
-    #if castling_little or castling_long est dans enable case
-    #alors fonction casltling qui prend la direction( castle_little ou long)
-    #fais meme effet que move and capture
 
     if chessboard[arrived_index_1][arrived_index_2].tab64 in enable_case:
+        if chessboard[arrived_index_1][arrived_index_2].tab64 == castling_little:
+            move_and_capture(screen, background, start_index_1, start_index_2, arrived_index_1, arrived_index_2,enable_case, castling_little = None, castling_long = None)
+            king_side_castle(arrived_index_1, arrived_index_2,screen,background)
+            return True  # une pièce a été joué
+
+        elif chessboard[arrived_index_1][arrived_index_2].tab64 == castling_long:
+            move_and_capture(screen, background, start_index_1, start_index_2, arrived_index_1, arrived_index_2,enable_case, castling_little = None, castling_long = None)
+            queen_side_castle(arrived_index_1, arrived_index_2,screen,background)
+            return True  # une pièce a été joué
+
         start_x, start_y = chessboard[start_index_1][start_index_2].get_pos()
         arrived_x, arrived_y = chessboard[arrived_index_1][arrived_index_2].get_pos()
 
