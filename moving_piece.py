@@ -57,6 +57,8 @@ def possible_movement(start_index_1,start_index_2):
             if case.piece is not None:
                 case_with_piece.append(case.tab64)
 
+    if chessboard[start_index_1][start_index_2].piece is None:
+        return None,None,None
 
     if chessboard[start_index_1][start_index_2].piece.name == "pawn" and chessboard[start_index_1][start_index_2].piece.color == "white":
         start_tab64 = chessboard[start_index_1][start_index_2].tab64
@@ -79,6 +81,7 @@ def possible_movement(start_index_1,start_index_2):
                 next_tab64 = start_tab64 + direction  # on ajoute direction a pos départ
                 if tab64_to_tab120(next_tab64) != -1:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
                     possible_case.append(next_tab64)  # on l ajoute
+
 
 
 
@@ -193,13 +196,11 @@ def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index
 
     if chessboard[arrived_index_1][arrived_index_2].tab64 in enable_case:
         if chessboard[arrived_index_1][arrived_index_2].tab64 == castling_little:
-            move_and_capture(screen, background, start_index_1, start_index_2, arrived_index_1, arrived_index_2,enable_case, castling_little = None, castling_long = None)
-            king_side_castle(arrived_index_1, arrived_index_2,screen,background)
+            king_side_castle(move_and_capture,start_index_1, start_index_2,arrived_index_1, arrived_index_2,screen,background,enable_case)
             return True  # une pièce a été joué
 
         elif chessboard[arrived_index_1][arrived_index_2].tab64 == castling_long:
-            move_and_capture(screen, background, start_index_1, start_index_2, arrived_index_1, arrived_index_2,enable_case, castling_little = None, castling_long = None)
-            queen_side_castle(arrived_index_1, arrived_index_2,screen,background)
+            queen_side_castle(move_and_capture,start_index_1, start_index_2,arrived_index_1, arrived_index_2,screen,background,enable_case)
             return True  # une pièce a été joué
 
         start_x, start_y = chessboard[start_index_1][start_index_2].get_pos()
@@ -225,16 +226,19 @@ def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index
 def who_is_the_turn(color_turn,play,turn):#fonction pour savoir qui joue le tour
     if color_turn == "white" and play:
         color_turn = "black"
+        turn += 1
     elif color_turn == "black" and play:
         color_turn = "white"
+        turn += 1
 
     play = False
-    turn += 1
     return color_turn,play,turn
 
-def display_turn_and_color(color_turn,turn):
+def display_state(color_turn,turn,check):
     print(f"NUMBER TURN: {turn}")
     print(f"COLOR TURN: {color_turn}\n")
+    if check:
+        print(f"CHECK")
 
 
 

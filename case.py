@@ -4,14 +4,14 @@ from constants import COORD_CASE, TAB120
 class Case:
     def __init__(self,surface,pos,piece,tab64,color,play_once):
         self.surface = surface
-        self.__pos = pos
+        self.pos = pos
         self.piece = piece
         self.tab64 = tab64
         self.color = color
         self.play_once = play_once
 
     def get_pos(self):
-        return self.__pos
+        return self.pos
 
 # Définition de classe pour les cases
 #+ methode de classe pour échanger info avec les autres cases

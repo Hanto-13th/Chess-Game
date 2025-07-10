@@ -11,6 +11,7 @@ def add_pointer(screen,enable_case,color_turn,start_index_1, start_index_2): #fo
                     #c'est a la bonne couleur de jouer
                     x,y = case.get_pos()
                     screen.blit(Pointer, (x, y))
+
     pygame.display.flip()
 
 
