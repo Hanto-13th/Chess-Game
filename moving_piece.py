@@ -52,6 +52,7 @@ def possible_movement(start_index_1,start_index_2):
     case_with_piece = []
     possible_case = []
     castling_little, castling_long = None,None
+
     for row in chessboard:
         for case in row:
             if case.piece is not None:
@@ -118,8 +119,12 @@ def possible_movement(start_index_1,start_index_2):
                 possible_case.append(castling_long)
         for direction in directions:
             next_tab64 = start_tab64 + direction
-            if tab64_to_tab120(next_tab64) != -1 or next_tab64 not in case_with_piece:
-                possible_case.append(next_tab64)  # en dehors du plateau
+            if tab64_to_tab120(next_tab64) != -1:
+                for row in chessboard:
+                    for case in row:
+                        if case.tab64 == next_tab64:
+                            if case.piece is None or case.piece.color != chessboard[start_index_1][start_index_2].piece.color:
+                                possible_case.append(next_tab64)
 
 
 
@@ -166,9 +171,13 @@ def possible_movement(start_index_1,start_index_2):
 
         for direction in directions:
                 next_tab64 = start_tab64 + direction
-                if tab64_to_tab120(next_tab64) != -1 or next_tab64 not in case_with_piece:
 
-                    possible_case.append(next_tab64)
+                if tab64_to_tab120(next_tab64) != -1:
+                    for row in chessboard:
+                        for case in row:
+                            if case.tab64 == next_tab64:
+                                if case.piece is None or case.piece.color != chessboard[start_index_1][start_index_2].piece.color:
+                                    possible_case.append(next_tab64)
 
 
     if chessboard[start_index_1][start_index_2].piece.name == "rook":
@@ -190,6 +199,7 @@ def possible_movement(start_index_1,start_index_2):
                 time += 1
 
 
+    possible_case = list(filter(lambda x: tab64_to_tab120(x) != -1,list(filter(None,possible_case))))
     return possible_case,castling_little,castling_long
 
 def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2,enable_case,castling_little,castling_long): #fonction de déplacement des pièces

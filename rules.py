@@ -16,7 +16,7 @@ def checkmate(possible_movement,check,color_king_in_check):
                 if case.piece is not None and case.piece.name == "king" and case.piece.color == color_king_in_check: #recherche du roi et de ses mouvements
                     king_tab64 = case.tab64
                     i,j = find_attack(case.get_pos())
-                    king = (i,j)
+                    king_pos = (i,j)
                     move_king,_,_ = possible_movement(i,j)
                 elif case.piece is not None and case.piece.color == color_king_in_check:
                     i, j = find_attack(case.get_pos())
@@ -35,7 +35,8 @@ def checkmate(possible_movement,check,color_king_in_check):
         if len(attackers) >= 2:
             return True
         # si pas dans liste alors pas mat
-        safe_squares = move_king in case_attacked
+        safe_squares = any(move not in case_attacked for move in move_king)
+
         if safe_squares:
             return False
 
@@ -46,7 +47,7 @@ def checkmate(possible_movement,check,color_king_in_check):
             if attacker_tab64 in case_protected:
                 return False
 
-        king_x,king_y = king
+        king_x,king_y = king_pos
         for attacker in attackers:
             attacker_x,attacker_y = attacker
             attacker_piece = chessboard[attacker_x][attacker_y].piece
@@ -73,6 +74,28 @@ def checkmate(possible_movement,check,color_king_in_check):
         return True
 
 
+def stalemate(possible_movement, color_turn, check,case_attacked_by_white,case_attacked_by_black):
+    if not check:
+        legal_move = []
+
+        for row in chessboard:
+            for case in row:
+                if case.piece is not None and case.piece.color == color_turn:
+                    i, j = find_attack((case.get_pos()))
+                    moves, _, _ = possible_movement(i, j)
+                    legal_move.extend(moves)
+
+        legal_move = list(set(legal_move))
+
+        if case_attacked_by_white is not None and color_turn == "black" and all(move in case_attacked_by_white for move in legal_move):
+            return True # Pas pat, il y a un coup non attaqué
+
+        if case_attacked_by_black is not None and color_turn == "white" and all(move in case_attacked_by_black for move in legal_move):
+            return True  # Pas pat, il y a un coup non attaqué
+
+        return False
+
+
 
 
 
@@ -97,14 +120,14 @@ def is_check(possible_movement):
                 i,j = find_attack(case.get_pos()) #on cherche toute les cases attaqué
                 attack,_,_ = possible_movement(i,j)
                 attack_case_by_black.extend(attack)
-    attack_list_by_white = list(set([x for x in attack_case_by_white if 21 <= x <= 98]))
-    attack_list_by_black = list(set([x for x in attack_case_by_black if 21 <= x <= 98]))
+    attack_list_by_white = list(set([x for x in attack_case_by_white if x is not None and 21 <= x <= 98]))
+    attack_list_by_black = list(set([x for x in attack_case_by_black if x is not None and 21 <= x <= 98]))
     if king_pos_white in attack_list_by_black:
-        return True,"white"
+        return True,"white",None,None
     elif king_pos_black in attack_list_by_white:
-        return True,"black"
+        return True,"black",None,None
 
-    return False,None
+    return False,None,attack_list_by_white,attack_list_by_black
 #si roi adverse est dans cette liste alors echec
 
 def checking(possible_movement, start_index_1, start_index_2, arrived_index_1, arrived_index_2,color_turn):
@@ -138,8 +161,8 @@ def checking(possible_movement, start_index_1, start_index_2, arrived_index_1, a
                 attack_case_by_black.extend(attack)
 
 
-    attack_list_by_white = list(set([x for x in attack_case_by_white if 21 <= x <= 98]))
-    attack_list_by_black = list(set([x for x in attack_case_by_black if 21 <= x <= 98]))
+    attack_list_by_white = list(set([x for x in attack_case_by_white if x is not None and 21 <= x <= 98]))
+    attack_list_by_black = list(set([x for x in attack_case_by_black if x is not None and 21 <= x <= 98]))
     chessboard[start_index_1][start_index_2].piece = piece_depart
     chessboard[arrived_index_1][arrived_index_2].piece = piece_arrivee
     if king_pos_black in attack_list_by_white and color_turn == "black":
