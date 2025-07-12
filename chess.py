@@ -24,6 +24,8 @@ arrived_index_1, arrived_index_2 = None,None #variable de coordonnées d'arrivé
 castling_little,castling_long = None,None
 enable_case = [] #liste pour case de déplacement valide
 list_attack_white,list_attack_black = None,None
+en_passant = 0
+pos_en_passant = None
 check = False
 
 
@@ -40,13 +42,13 @@ while running: #Boucle principale
         if event.type == pygame.MOUSEBUTTONDOWN:
 
             if selected_piece == 0:#si aucune piece n'est séléctionné
-                pat = stalemate(possible_movement, color_turn, check, list_attack_white, list_attack_black)
+                pat = stalemate(possible_movement, color_turn, check, list_attack_white, list_attack_black,en_passant,pos_en_passant)
                 if pat:
                     print("STALEMATE")
                 else:
                     click_pos_start = event.pos
                     start_index_1,start_index_2 = find_coord(click_pos_start)#evenement clique souris + appel et stockage de la fonction détection des coordonnées
-                    enable_case,castling_little,castling_long = possible_movement(start_index_1, start_index_2) #stockage des cases de déplacement possible
+                    enable_case,castling_little,castling_long = possible_movement(start_index_1, start_index_2,en_passant,pos_en_passant) #stockage des cases de déplacement possible
                     try:
                         add_pointer(screen,enable_case,color_turn,start_index_1, start_index_2) #affichage pointeur
                     except Exception as ex:
@@ -64,11 +66,11 @@ while running: #Boucle principale
 
                 if check:
                     # vérifier si le coup rend/maintient le roi en échec
-                    if checking(possible_movement, start_index_1, start_index_2, arrived_index_1, arrived_index_2,color_turn):
+                    if checking(possible_movement, start_index_1, start_index_2, arrived_index_1, arrived_index_2,color_turn,en_passant,pos_en_passant):
                         print("THE KING IS CHECK !")
                         remove_pointer(screen, background, enable_case)
                         selected_piece = 0
-                    if not checking(possible_movement, start_index_1, start_index_2, arrived_index_1, arrived_index_2,color_turn):
+                    if not checking(possible_movement, start_index_1, start_index_2, arrived_index_1, arrived_index_2,color_turn,en_passant,pos_en_passant):
                         check = False
 
                 if (arrived_index_1 == start_index_1 and arrived_index_2 == start_index_2) \
@@ -77,13 +79,13 @@ while running: #Boucle principale
                     remove_pointer(screen, background, enable_case)
                     selected_piece = 0
 
-                if not check and not checking(possible_movement,start_index_1,start_index_2,arrived_index_1,arrived_index_2,color_turn) and selected_piece == 1:
+                if not check and not checking(possible_movement,start_index_1,start_index_2,arrived_index_1,arrived_index_2,color_turn,en_passant,pos_en_passant) and selected_piece == 1:
                     remove_pointer(screen,background,enable_case) #désaffichage pointeur
-                    play = move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2,enable_case,castling_little,castling_long,color_turn)#appel fonction déplacement des pièces
+                    play,en_passant,pos_en_passant = move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2,enable_case,castling_little,castling_long,en_passant,color_turn)#appel fonction déplacement des pièces
                     selected_piece = 0
 
-                    check,color_king_in_check,list_attack_white,list_attack_black = is_check(possible_movement)
-                    mat = checkmate(possible_movement, check, color_king_in_check)
+                    check,color_king_in_check,list_attack_white,list_attack_black = is_check(possible_movement,en_passant,pos_en_passant)
+                    mat = checkmate(possible_movement, check, color_king_in_check,en_passant,pos_en_passant)
                     if mat:
                         print("CHECKMATE")
                     else:

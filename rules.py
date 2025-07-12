@@ -2,7 +2,7 @@ import pygame
 from case import chessboard
 from piece import W_queen,W_rook,W_bishop,W_knight,B_queen,B_rook,B_bishop,B_knight
 
-def checkmate(possible_movement,check,color_king_in_check):
+def checkmate(possible_movement,check,color_king_in_check,en_passant,pos_en_passant):
     #regarder si echec
     if check:
         king_tab64 = None
@@ -18,14 +18,14 @@ def checkmate(possible_movement,check,color_king_in_check):
                     king_tab64 = case.tab64
                     i,j = find_attack(case.get_pos())
                     king_pos = (i,j)
-                    move_king,_,_ = possible_movement(i,j)
+                    move_king,_,_ = possible_movement(i,j,en_passant,pos_en_passant)
                 elif case.piece is not None and case.piece.color == color_king_in_check:
                     i, j = find_attack(case.get_pos())
-                    moves, _, _ = possible_movement(i, j)
+                    moves, _, _ = possible_movement(i, j,en_passant,pos_en_passant)
                     case_protected.extend(moves)
                 elif case.piece is not None and case.piece.color != color_king_in_check:#recherche des attaquants
                     i,j = find_attack(case.get_pos())
-                    moves, _, _ = possible_movement(i, j)
+                    moves, _, _ = possible_movement(i, j,en_passant,pos_en_passant)
                     case_attacked.extend(moves)
                     if king_tab64 in moves:
                         attackers.append((i, j))
@@ -75,7 +75,7 @@ def checkmate(possible_movement,check,color_king_in_check):
         return True
 
 
-def stalemate(possible_movement, color_turn, check,case_attacked_by_white,case_attacked_by_black):
+def stalemate(possible_movement, color_turn, check,case_attacked_by_white,case_attacked_by_black,en_passant,pos_en_passant):
     if not check:
         legal_move = []
 
@@ -83,7 +83,7 @@ def stalemate(possible_movement, color_turn, check,case_attacked_by_white,case_a
             for case in row:
                 if case.piece is not None and case.piece.color == color_turn:
                     i, j = find_attack((case.get_pos()))
-                    moves, _, _ = possible_movement(i, j)
+                    moves, _, _ = possible_movement(i, j,en_passant,pos_en_passant)
                     legal_move.extend(moves)
 
         legal_move = list(set(legal_move))
@@ -98,7 +98,7 @@ def stalemate(possible_movement, color_turn, check,case_attacked_by_white,case_a
 
 
 
-def is_check(possible_movement):
+def is_check(possible_movement,en_passant,pos_en_passant):
     attack_case_by_white = []
     attack_case_by_black = []
     king_pos_white = None
@@ -112,11 +112,11 @@ def is_check(possible_movement):
                     king_pos_black = case.tab64
             if case.piece is not None and case.piece.color == "white": #Regarde toute les cases attaqué par piece blanches
                 i,j = find_attack(case.get_pos()) #on cherche toute les cases attaqué
-                attack,_,_ = possible_movement(i,j)
+                attack,_,_ = possible_movement(i,j,en_passant,pos_en_passant)
                 attack_case_by_white.extend(attack)
             elif case.piece is not None and case.piece.color == "black": #Regarde toute les cases attaqué par piece noires
                 i,j = find_attack(case.get_pos()) #on cherche toute les cases attaqué
-                attack,_,_ = possible_movement(i,j)
+                attack,_,_ = possible_movement(i,j,en_passant,pos_en_passant)
                 attack_case_by_black.extend(attack)
     attack_list_by_white = list(set([x for x in attack_case_by_white if x is not None and 21 <= x <= 98]))
     attack_list_by_black = list(set([x for x in attack_case_by_black if x is not None and 21 <= x <= 98]))
@@ -128,7 +128,7 @@ def is_check(possible_movement):
     return False,None,attack_list_by_white,attack_list_by_black
 #si roi adverse est dans cette liste alors echec
 
-def checking(possible_movement, start_index_1, start_index_2, arrived_index_1, arrived_index_2,color_turn):
+def checking(possible_movement, start_index_1, start_index_2, arrived_index_1, arrived_index_2,color_turn,en_passant,pos_en_passant):
     # Sauvegarde des pièces pour rollback
     piece_depart = chessboard[start_index_1][start_index_2].piece
     piece_arrivee = chessboard[arrived_index_1][arrived_index_2].piece
@@ -151,11 +151,11 @@ def checking(possible_movement, start_index_1, start_index_2, arrived_index_1, a
 
             if case.piece is not None and case.piece.color == "white":  # Regarde toute les cases attaqué par piece blanches
                 i, j = find_attack(case.get_pos())  # on cherche toute les cases attaqué
-                attack, _, _ = possible_movement(i, j)
+                attack, _, _ = possible_movement(i, j,en_passant,pos_en_passant)
                 attack_case_by_white.extend(attack)
             elif case.piece is not None and case.piece.color == "black":  # Regarde toute les cases attaqué par piece noires
                 i, j = find_attack(case.get_pos())  # on cherche toute les cases attaqué
-                attack, _, _ = possible_movement(i, j)
+                attack, _, _ = possible_movement(i, j,en_passant,pos_en_passant)
                 attack_case_by_black.extend(attack)
 
 
@@ -286,6 +286,7 @@ def promotion(arrived_index_1,arrived_index_2,screen,background,color_turn):
         print("ERROR CHOOSE A VALID ISSUE !")
         promotion_piece = input("Choose a piece and press Enter (q for queen,k for knight,b for bishop or r for rook): ")
 
+
     match promotion_piece:
         case "q":
             if color_turn == "white":
@@ -297,7 +298,6 @@ def promotion(arrived_index_1,arrived_index_2,screen,background,color_turn):
 
             screen.blit(background, (x, y), area=pygame.Rect(x, y, 93.75, 93.75))
             screen.blit(chessboard[arrived_index_1][arrived_index_2].surface,(x, y))  # blit sur ecran de la position de la nouvelle pièce sur case arrivée
-            pygame.display.flip()
 
 
 
@@ -311,7 +311,6 @@ def promotion(arrived_index_1,arrived_index_2,screen,background,color_turn):
 
             screen.blit(background, (x, y), area=pygame.Rect(x, y, 93.75, 93.75))
             screen.blit(chessboard[arrived_index_1][arrived_index_2].surface,(x, y))  # blit sur ecran de la position de la nouvelle pièce sur case arrivée
-            pygame.display.flip()
 
 
 
@@ -325,7 +324,6 @@ def promotion(arrived_index_1,arrived_index_2,screen,background,color_turn):
 
             screen.blit(background, (x, y), area=pygame.Rect(x, y, 93.75, 93.75))
             screen.blit(chessboard[arrived_index_1][arrived_index_2].surface,(x, y))  # blit sur ecran de la position de la nouvelle pièce sur case arrivée
-            pygame.display.flip()
 
 
         case "r":
@@ -338,6 +336,7 @@ def promotion(arrived_index_1,arrived_index_2,screen,background,color_turn):
 
             screen.blit(background, (x, y), area=pygame.Rect(x, y, 93.75, 93.75))
             screen.blit(chessboard[arrived_index_1][arrived_index_2].surface,(x, y))  # blit sur ecran de la position de la nouvelle pièce sur case arrivée
-            pygame.display.flip()
+
+    pygame.display.flip()  # MAJ de l'écran
 
 

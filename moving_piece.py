@@ -47,7 +47,7 @@ def find_coord(pos_click):
 
     return coord_index_x,coord_index_y
 
-def possible_movement(start_index_1,start_index_2):
+def possible_movement(start_index_1,start_index_2,en_passant,pos_en_passant):
 #fonction pour connaitre les cases de chaque pièce en fonction de leur position
     case_with_piece = []
     possible_case = []
@@ -82,7 +82,14 @@ def possible_movement(start_index_1,start_index_2):
                 next_tab64 = start_tab64 + direction  # on ajoute direction a pos départ
                 if tab64_to_tab120(next_tab64) != -1:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
                     possible_case.append(next_tab64)  # on l ajoute
-
+            if en_passant == 1 and pos_en_passant == chessboard[start_index_1][start_index_2].tab64 + 1:
+                next_tab64_enpassant = start_tab64 - 9
+                if tab64_to_tab120(next_tab64_enpassant) != -1:
+                    possible_case.append(next_tab64_enpassant)
+            if en_passant == 1 and pos_en_passant == chessboard[start_index_1][start_index_2].tab64 - 1:
+                next_tab64_enpassant = start_tab64 - 11
+                if tab64_to_tab120(next_tab64_enpassant) != -1:
+                    possible_case.append(next_tab64_enpassant)
 
 
 
@@ -106,6 +113,14 @@ def possible_movement(start_index_1,start_index_2):
                 next_tab64 = start_tab64 + direction
                 if tab64_to_tab120(next_tab64) != -1:  # si la case ne sort pas du tableau ou ne rencontre pas de piece
                     possible_case.append(next_tab64)  # on l ajoute
+            if en_passant == 1 and pos_en_passant == chessboard[start_index_1][start_index_2].tab64 - 1:
+                next_tab64_enpassant = start_tab64 + 9
+                if tab64_to_tab120(next_tab64_enpassant) != -1:
+                    possible_case.append(next_tab64_enpassant)
+            if en_passant == 1 and pos_en_passant == chessboard[start_index_1][start_index_2].tab64 + 1:
+                next_tab64_enpassant = start_tab64 + 11
+                if tab64_to_tab120(next_tab64_enpassant) != -1:
+                    possible_case.append(next_tab64_enpassant)
 
     if chessboard[start_index_1][start_index_2].piece.name == "king":
         start_tab64 = chessboard[start_index_1][start_index_2].tab64
@@ -202,16 +217,16 @@ def possible_movement(start_index_1,start_index_2):
     possible_case = list(filter(lambda x: tab64_to_tab120(x) != -1,list(filter(None,possible_case))))
     return possible_case,castling_little,castling_long
 
-def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2,enable_case,castling_little,castling_long,color_turn): #fonction de déplacement des pièces
-
+def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2,enable_case,castling_little,castling_long,en_passant,color_turn): #fonction de déplacement des pièces
+    pos_en_passant = None
     if chessboard[arrived_index_1][arrived_index_2].tab64 in enable_case:
         if chessboard[arrived_index_1][arrived_index_2].tab64 == castling_little:
             king_side_castle(move_and_capture,start_index_1, start_index_2,arrived_index_1, arrived_index_2,screen,background,enable_case)
-            return True  # une pièce a été joué
+            return True,en_passant,pos_en_passant  # une pièce a été joué
 
         elif chessboard[arrived_index_1][arrived_index_2].tab64 == castling_long:
             queen_side_castle(move_and_capture,start_index_1, start_index_2,arrived_index_1, arrived_index_2,screen,background,enable_case)
-            return True  # une pièce a été joué
+            return True,en_passant,pos_en_passant # une pièce a été joué
 
         start_x, start_y = chessboard[start_index_1][start_index_2].get_pos()
         arrived_x, arrived_y = chessboard[arrived_index_1][arrived_index_2].get_pos()
@@ -228,17 +243,60 @@ def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index
         screen.blit(chessboard[arrived_index_1][arrived_index_2].surface, (arrived_x, arrived_y)) #blit sur ecran de la position de la nouvelle pièce sur case arrivée
 
         screen.blit(background, (start_x, start_y), area=pygame.Rect(start_x, start_y, 93.75, 93.75)) #efface l’ancienne case de départ avec le fond
+        pygame.display.flip()  # MAJ de l'écran
+
         if chessboard[arrived_index_1][arrived_index_2].piece.name == "pawn" and color_turn == "white" and chessboard[arrived_index_1][arrived_index_2].tab64 in last_case_black:
             promotion(arrived_index_1,arrived_index_2,screen,background,color_turn)
-            return True
+
         elif chessboard[arrived_index_1][arrived_index_2].piece.name == "pawn" and color_turn == "black" and chessboard[arrived_index_1][arrived_index_2].tab64 in last_case_white:
             promotion(arrived_index_1,arrived_index_2,screen,background,color_turn)
-            return True
 
-        return True #une pièce a été joué
+        if chessboard[arrived_index_1][arrived_index_2].piece.name == "pawn" and color_turn == "white" and arrived_index_2 == start_index_2 + 2:
+            en_passant = 1
+            pos_en_passant = chessboard[arrived_index_1][arrived_index_2].tab64
+        elif chessboard[arrived_index_1][arrived_index_2].piece.name == "pawn" and color_turn == "black" and arrived_index_2 == start_index_2 - 2:
+            en_passant = 1
+            pos_en_passant = chessboard[arrived_index_1][arrived_index_2].tab64
+
+        if en_passant == 1 and chessboard[arrived_index_1][arrived_index_2].tab64 == chessboard[start_index_1][start_index_2].tab64 - 9:
+            en_passant = 0
+            x,y = chessboard[arrived_index_1][arrived_index_2 - 1].get_pos()
+            chessboard[arrived_index_1][arrived_index_2 - 1].color = None
+            chessboard[arrived_index_1][arrived_index_2 - 1].piece = None  # efface pièce de la case de départ
+            screen.blit(background, (x,y), area=pygame.Rect(x,y, 93.75,93.75))  # efface l’ancienne case de départ avec le fond
+            pygame.display.flip()  # MAJ de l'écran
+
+        elif en_passant == 1 and chessboard[arrived_index_1][arrived_index_2].tab64 == chessboard[start_index_1][start_index_2].tab64 - 11:
+            en_passant = 0
+
+            x,y = chessboard[arrived_index_1][arrived_index_2 - 1].get_pos()
+            chessboard[arrived_index_1][arrived_index_2 - 1].color = None
+            chessboard[arrived_index_1][arrived_index_2 - 1].piece = None  # efface pièce de la case de départ
+            screen.blit(background, (x, y),area=pygame.Rect(x, y, 93.75, 93.75))  # efface l’ancienne case de départ avec le fond
+            pygame.display.flip()  # MAJ de l'écran
+
+        elif en_passant == 1 and chessboard[arrived_index_1][arrived_index_2].tab64 == chessboard[start_index_1][start_index_2].tab64 + 9:
+            en_passant = 0
+
+            x,y = chessboard[arrived_index_1][arrived_index_2 + 1].get_pos()
+            chessboard[arrived_index_1][arrived_index_2 + 1].color = None
+            chessboard[arrived_index_1][arrived_index_2 + 1].piece = None  # efface pièce de la case de départ
+            screen.blit(background, (x, y),area=pygame.Rect(x, y, 93.75, 93.75))  # efface l’ancienne case de départ avec le fond
+            pygame.display.flip()  # MAJ de l'écran
+
+        elif en_passant == 1 and chessboard[arrived_index_1][arrived_index_2].tab64 == chessboard[start_index_1][start_index_2].tab64 + 11:
+            en_passant = 0
+            x,y = chessboard[arrived_index_1][arrived_index_2 + 1].get_pos()
+            chessboard[arrived_index_1][arrived_index_2 + 1].color = None
+            chessboard[arrived_index_1][arrived_index_2 + 1].piece = None  # efface pièce de la case de départ
+            screen.blit(background, (x, y),area=pygame.Rect(x, y, 93.75, 93.75))  # efface l’ancienne case de départ avec le fond
+            pygame.display.flip()  # MAJ de l'écran
+
+
+        return True,en_passant,pos_en_passant #une pièce a été joué
 
     else:
-        return False #une pièce n'est pas joué
+        return False,en_passant,pos_en_passant #une pièce n'est pas joué
 
 def who_is_the_turn(color_turn,play,turn,global_turn):#fonction pour savoir qui joue le tour
     if color_turn == "white" and play:
