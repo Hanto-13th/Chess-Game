@@ -37,3 +37,5 @@ move_knight = (12, 21, 19, 8,-12,-21,-19,-8)
 move_rook = (1, 10,-1,-10)
 #variable de vecteur de déplacement de chaque pièce
 
+last_case_white = [x for x in range(91,99)]
+last_case_black = [x for x in range(21,29)]

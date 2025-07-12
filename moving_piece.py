@@ -1,7 +1,7 @@
 from case import chessboard, tab64_to_tab120#import les  listes "case" et "coord_case" pour fonction "move_and_blitt"
 from piece import *
-from constants import move_pawn_white,move_pawn_black,move_king,move_knight,move_queen,move_rook,move_bishop
-from rules import is_castling,king_side_castle,queen_side_castle
+from constants import move_pawn_white,move_pawn_black,move_king,move_knight,move_queen,move_rook,move_bishop,last_case_white,last_case_black
+from rules import is_castling,king_side_castle,queen_side_castle,promotion
 
 
 
@@ -202,7 +202,7 @@ def possible_movement(start_index_1,start_index_2):
     possible_case = list(filter(lambda x: tab64_to_tab120(x) != -1,list(filter(None,possible_case))))
     return possible_case,castling_little,castling_long
 
-def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2,enable_case,castling_little,castling_long): #fonction de déplacement des pièces
+def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2,enable_case,castling_little,castling_long,color_turn): #fonction de déplacement des pièces
 
     if chessboard[arrived_index_1][arrived_index_2].tab64 in enable_case:
         if chessboard[arrived_index_1][arrived_index_2].tab64 == castling_little:
@@ -228,24 +228,33 @@ def move_and_capture(screen,background,start_index_1,start_index_2,arrived_index
         screen.blit(chessboard[arrived_index_1][arrived_index_2].surface, (arrived_x, arrived_y)) #blit sur ecran de la position de la nouvelle pièce sur case arrivée
 
         screen.blit(background, (start_x, start_y), area=pygame.Rect(start_x, start_y, 93.75, 93.75)) #efface l’ancienne case de départ avec le fond
+        if chessboard[arrived_index_1][arrived_index_2].piece.name == "pawn" and color_turn == "white" and chessboard[arrived_index_1][arrived_index_2].tab64 in last_case_black:
+            promotion(arrived_index_1,arrived_index_2,screen,background,color_turn)
+            return True
+        elif chessboard[arrived_index_1][arrived_index_2].piece.name == "pawn" and color_turn == "black" and chessboard[arrived_index_1][arrived_index_2].tab64 in last_case_white:
+            promotion(arrived_index_1,arrived_index_2,screen,background,color_turn)
+            return True
+
         return True #une pièce a été joué
 
     else:
         return False #une pièce n'est pas joué
 
-def who_is_the_turn(color_turn,play,turn):#fonction pour savoir qui joue le tour
+def who_is_the_turn(color_turn,play,turn,global_turn):#fonction pour savoir qui joue le tour
     if color_turn == "white" and play:
         color_turn = "black"
-        turn += 1
+        turn += 0.5
     elif color_turn == "black" and play:
         color_turn = "white"
-        turn += 1
-
+        turn += 0.5
+    if turn == 1:
+        global_turn += 1
+        turn = 0
     play = False
-    return color_turn,play,turn
+    return color_turn,play,turn,global_turn
 
-def display_state(color_turn,turn,check):
-    print(f"NUMBER TURN: {turn}")
+def display_state(color_turn,global_turn,check):
+    print(f"NUMBER TURN: {global_turn}")
     print(f"COLOR TURN: {color_turn}\n")
     if check:
         print(f"CHECK")

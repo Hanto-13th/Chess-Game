@@ -1,5 +1,6 @@
 import pygame
 from case import chessboard
+from piece import W_queen,W_rook,W_bishop,W_knight,B_queen,B_rook,B_bishop,B_knight
 
 def checkmate(possible_movement,check,color_king_in_check):
     #regarder si echec
@@ -94,9 +95,6 @@ def stalemate(possible_movement, color_turn, check,case_attacked_by_white,case_a
             return True  # Pas pat, il y a un coup non attaqué
 
         return False
-
-
-
 
 
 
@@ -243,8 +241,7 @@ def king_side_castle(move_and_capture,start_index_1, start_index_2,arrived_index
     rook_start_x, rook_start_y = chessboard[arrived_index_1 + 1][arrived_index_2].get_pos()
     rook_arrived_x, rook_arrived_y = chessboard[arrived_index_1 - 1][arrived_index_2].get_pos()
 
-    screen.blit(background, (rook_arrived_x, rook_arrived_y), area=pygame.Rect(rook_arrived_x, rook_arrived_y, 93.75,
-                                                                               93.75))  # blit morceau background sur case arrivée pour enlever pièce
+    screen.blit(background, (rook_arrived_x, rook_arrived_y), area=pygame.Rect(rook_arrived_x, rook_arrived_y, 93.75,93.75))  # blit morceau background sur case arrivée pour enlever pièce
 
     chessboard[arrived_index_1 - 1][arrived_index_2].surface = chessboard[arrived_index_1 + 1][arrived_index_2].surface
     chessboard[arrived_index_1 - 1][arrived_index_2].piece = chessboard[arrived_index_1 + 1][arrived_index_2].piece  # pièce sur case arrivée devient celle de case de départ
@@ -266,8 +263,7 @@ def queen_side_castle(move_and_capture,start_index_1, start_index_2,arrived_inde
     rook_start_x, rook_start_y = chessboard[arrived_index_1 - 2][arrived_index_2].get_pos()
     rook_arrived_x, rook_arrived_y = chessboard[arrived_index_1 + 1][arrived_index_2].get_pos()
 
-    screen.blit(background, (rook_arrived_x, rook_arrived_y), area=pygame.Rect(rook_arrived_x, rook_arrived_y, 93.75,
-                                                                               93.75))  # blit morceau background sur case arrivée pour enlever pièce
+    screen.blit(background, (rook_arrived_x, rook_arrived_y), area=pygame.Rect(rook_arrived_x, rook_arrived_y, 93.75,93.75))  # blit morceau background sur case arrivée pour enlever pièce
 
     chessboard[arrived_index_1 + 1][arrived_index_2].surface = chessboard[arrived_index_1 - 2][arrived_index_2].surface
     chessboard[arrived_index_1 + 1][arrived_index_2].piece = chessboard[arrived_index_1 - 2][arrived_index_2].piece  # pièce sur case arrivée devient celle de case de départ
@@ -280,4 +276,68 @@ def queen_side_castle(move_and_capture,start_index_1, start_index_2,arrived_inde
     screen.blit(chessboard[arrived_index_1 + 1][arrived_index_2].surface,(rook_arrived_x, rook_arrived_y))  # blit sur ecran de la position de la nouvelle pièce sur case arrivée
 
     screen.blit(background, (rook_start_x, rook_start_y), area=pygame.Rect(rook_start_x, rook_start_y, 93.75,93.75))  # efface l’ancienne case de départ avec le fond
+
+
+def promotion(arrived_index_1,arrived_index_2,screen,background,color_turn):
+    x,y = chessboard[arrived_index_1][arrived_index_2].get_pos()
+    list_promo = ["q","k","b","r"]
+    promotion_piece = input("Choose a piece and press Enter (q for queen,k for knight,b for bishop or r for rook): ")
+    while promotion_piece not in list_promo:
+        print("ERROR CHOOSE A VALID ISSUE !")
+        promotion_piece = input("Choose a piece and press Enter (q for queen,k for knight,b for bishop or r for rook): ")
+
+    match promotion_piece:
+        case "q":
+            if color_turn == "white":
+                chessboard[arrived_index_1][arrived_index_2].piece = W_queen
+                chessboard[arrived_index_1][arrived_index_2].surface = chessboard[arrived_index_1][arrived_index_2].piece.get_sprite()
+            elif color_turn == "black":
+                chessboard[arrived_index_1][arrived_index_2].piece = B_queen
+                chessboard[arrived_index_1][arrived_index_2].surface = chessboard[arrived_index_1][arrived_index_2].piece.get_sprite()
+
+            screen.blit(background, (x, y), area=pygame.Rect(x, y, 93.75, 93.75))
+            screen.blit(chessboard[arrived_index_1][arrived_index_2].surface,(x, y))  # blit sur ecran de la position de la nouvelle pièce sur case arrivée
+            pygame.display.flip()
+
+
+
+        case "k":
+            if color_turn == "white":
+                chessboard[arrived_index_1][arrived_index_2].piece = W_knight
+                chessboard[arrived_index_1][arrived_index_2].surface = chessboard[arrived_index_1][arrived_index_2].piece.get_sprite()
+            elif color_turn == "black":
+                chessboard[arrived_index_1][arrived_index_2].piece = B_knight
+                chessboard[arrived_index_1][arrived_index_2].surface = chessboard[arrived_index_1][arrived_index_2].piece.get_sprite()
+
+            screen.blit(background, (x, y), area=pygame.Rect(x, y, 93.75, 93.75))
+            screen.blit(chessboard[arrived_index_1][arrived_index_2].surface,(x, y))  # blit sur ecran de la position de la nouvelle pièce sur case arrivée
+            pygame.display.flip()
+
+
+
+        case "b":
+            if color_turn == "white":
+                chessboard[arrived_index_1][arrived_index_2].piece = W_bishop
+                chessboard[arrived_index_1][arrived_index_2].surface = chessboard[arrived_index_1][arrived_index_2].piece.get_sprite()
+            elif color_turn == "black":
+                chessboard[arrived_index_1][arrived_index_2].piece = B_bishop
+                chessboard[arrived_index_1][arrived_index_2].surface = chessboard[arrived_index_1][arrived_index_2].piece.get_sprite()
+
+            screen.blit(background, (x, y), area=pygame.Rect(x, y, 93.75, 93.75))
+            screen.blit(chessboard[arrived_index_1][arrived_index_2].surface,(x, y))  # blit sur ecran de la position de la nouvelle pièce sur case arrivée
+            pygame.display.flip()
+
+
+        case "r":
+            if color_turn == "white":
+                chessboard[arrived_index_1][arrived_index_2].piece = W_rook
+                chessboard[arrived_index_1][arrived_index_2].surface = chessboard[arrived_index_1][arrived_index_2].piece.get_sprite()
+            elif color_turn == "black":
+                chessboard[arrived_index_1][arrived_index_2].piece = B_rook
+                chessboard[arrived_index_1][arrived_index_2].surface = chessboard[arrived_index_1][arrived_index_2].piece.get_sprite()
+
+            screen.blit(background, (x, y), area=pygame.Rect(x, y, 93.75, 93.75))
+            screen.blit(chessboard[arrived_index_1][arrived_index_2].surface,(x, y))  # blit sur ecran de la position de la nouvelle pièce sur case arrivée
+            pygame.display.flip()
+
 

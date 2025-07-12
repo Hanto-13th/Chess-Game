@@ -17,7 +17,8 @@ screen.blit(background,(0,0)) #chargement du background + affichage
 running = True #variable initialisation boucle
 selected_piece = 0 #variable pour savoir si une piece est séléctionnée
 color_turn = "white"
-turn = 1 #variable pour gestion tour
+turn = 0 #variable pour gestion tour
+global_turn = 1
 start_index_1,start_index_2 = None,None
 arrived_index_1, arrived_index_2 = None,None #variable de coordonnées d'arrivée et de sortie
 castling_little,castling_long = None,None
@@ -27,7 +28,7 @@ check = False
 
 
 position_starting_game(screen) #appel de la fonction pour la position des pieces en début de partie
-display_state(color_turn = "white",turn = 1,check = None)
+display_state(color_turn = "white",global_turn = 1,check = None)
 pygame.display.flip() #MAJ de l'écran
 
 
@@ -78,7 +79,7 @@ while running: #Boucle principale
 
                 if not check and not checking(possible_movement,start_index_1,start_index_2,arrived_index_1,arrived_index_2,color_turn) and selected_piece == 1:
                     remove_pointer(screen,background,enable_case) #désaffichage pointeur
-                    play = move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2,enable_case,castling_little,castling_long)#appel fonction déplacement des pièces
+                    play = move_and_capture(screen,background,start_index_1,start_index_2,arrived_index_1,arrived_index_2,enable_case,castling_little,castling_long,color_turn)#appel fonction déplacement des pièces
                     selected_piece = 0
 
                     check,color_king_in_check,list_attack_white,list_attack_black = is_check(possible_movement)
@@ -86,8 +87,8 @@ while running: #Boucle principale
                     if mat:
                         print("CHECKMATE")
                     else:
-                        color_turn,play,turn = who_is_the_turn(color_turn,play,turn)
-                        display_state(color_turn,turn,check)
+                        color_turn,play,turn,global_turn = who_is_the_turn(color_turn,play,turn,global_turn)
+                        display_state(color_turn,global_turn,check)
 
 
                     pygame.display.flip()#MAJ de l'écran
