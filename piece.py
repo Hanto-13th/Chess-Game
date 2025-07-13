@@ -1,5 +1,9 @@
 import pygame
 
+#-------------------------------------
+# Creation of the Parent Class : Piece
+#-------------------------------------
+# With attributes and method
 class Piece:
     def __init__(self, color, sprite, name):
         self.color = color
@@ -10,12 +14,13 @@ class Piece:
     def get_sprite(self):
         return self.__sprite
 
+#--------------------------------------------------------------------------
+# Creation of Subclasses of class "Pieces" for each piece on the chessboard
+#--------------------------------------------------------------------------
 
 class Pawn(Piece):
     def __init__(self, color, sprite,name):
         super().__init__(color,sprite,name)
-
-
 
 class King(Piece):
     def __init__(self, color, sprite,name):
@@ -36,32 +41,33 @@ class Knight(Piece):
 class Rook(Piece):
     def __init__(self, color, sprite,name):
         super().__init__(color,sprite,name)
-# Définition de classe pour chaque pièces herité de la classe "Piece" avec methode de classe pour échanger infos avec les cases
 
-
+#loading all the sprites for each pieces
 
 W_pawn_sprite = pygame.image.load("sprite/WhitePawn.png")
 W_king_sprite = pygame.image.load("sprite/WhiteKing.png")
 W_queen_sprite = pygame.image.load("sprite/WhiteQueen.png")
 W_bishop_sprite = pygame.image.load("sprite/WhiteBishop.png")
 W_knight_sprite = pygame.image.load("sprite/WhiteKnight.png")
-W_rook_sprite = pygame.image.load("sprite/WhiteRook.png") # Chargement sprite piece blanches
+W_rook_sprite = pygame.image.load("sprite/WhiteRook.png")
 
 B_pawn_sprite = pygame.image.load("sprite/BlackPawn.png")
 B_king_sprite = pygame.image.load("sprite/BlackKing.png")
 B_queen_sprite = pygame.image.load("sprite/BlackQueen.png")
 B_bishop_sprite = pygame.image.load("sprite/BlackBishop.png")
 B_knight_sprite = pygame.image.load("sprite/BlackKnight.png")
-B_rook_sprite = pygame.image.load("sprite/BlackRook.png") # Chargement sprite piece noires
+B_rook_sprite = pygame.image.load("sprite/BlackRook.png")
 
-W_pawn = Pawn("white",W_pawn_sprite,"pawn") #création d 'instance de classe pour chaque pièce blanche (avec nom et sprite transformé par fonction "transform_pieces")
+#creation of all class instances for each pieces
+
+W_pawn = Pawn("white",W_pawn_sprite,"pawn")
 W_king = King("white",W_king_sprite,"king")
 W_queen = Queen("white",W_queen_sprite,"queen")
 W_bishop = Bishop("white",W_bishop_sprite,"bishop")
 W_knight = Knight("white",W_knight_sprite,"knight")
 W_rook = Rook("white",W_rook_sprite,"rook")
 
-B_pawn = Pawn("black",B_pawn_sprite,"pawn") #création d 'instance de classe pour chaque pièce noire (avec nom et sprite transformé par fonction "transform_pieces")
+B_pawn = Pawn("black",B_pawn_sprite,"pawn")
 B_king = King("black",B_king_sprite,"king")
 B_queen = Queen("black",B_queen_sprite,"queen")
 B_bishop = Bishop("black",B_bishop_sprite,"bishop")

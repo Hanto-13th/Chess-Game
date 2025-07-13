@@ -1,6 +1,11 @@
 import pygame
 from constants import COORD_CASE, TAB120
 
+#-----------------------
+# Creation of Case Class
+#-----------------------
+# With all his attributes to her manipulations
+
 class Case:
     def __init__(self,surface,pos,piece,tab64,color,play_once):
         self.surface = surface
@@ -13,13 +18,14 @@ class Case:
     def get_pos(self):
         return self.pos
 
-# Définition de classe pour les cases
-#+ methode de classe pour échanger info avec les autres cases
-
 def tab64_to_tab120(tab64_number):
+    """Function to mailbox method (cf. Robert Hyatt)
+    to translate tab64_number into tab 120 equivalent"""
     return TAB120[tab64_number]
-#fonction pour methode mailbox (retranscrire table 64 en tableau 120)
 
+
+#list for instance classes case creation on the chessboard
+#(White position) from the left to the right: nearest to distant
 
 chessboard = [[0,1,2,3,4,5,6,7] # case a
             ,[8,9,10,11,12,13,14,15] # case b
@@ -29,13 +35,13 @@ chessboard = [[0,1,2,3,4,5,6,7] # case a
             ,[40,41,42,43,44,45,46,47] # case f
             ,[48,49,50,51,52,53,54,55] # case g
             ,[56,57,58,59,60,61,62,63]] # case h
-#liste pour création des instances de classe de chaque cases sur le plateau "chessboard"
-# (W_pos) de gauche a droite: de la plus proche à la plus éloignée
 
+
+# loop for creation and stocking all instances of cases in chessboard with attributes
 index = 0
 tab64 = 91
+for number in range(1,9):
 
-for number in range(1,9): #boucle pour création des instances de classe de chaque cases sur le plateau "chessboard"
     chessboard[0][index] = Case(pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32),COORD_CASE[0][index],None,tab64,None,0)
 
     chessboard[1][index] = Case(pygame.Surface((93.75, 93.75), pygame.SRCALPHA, 32),COORD_CASE[1][index],None,tab64 + 1,None,0)

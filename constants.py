@@ -1,5 +1,25 @@
+#-----------------------------------------------
+# All Variables Constants to Initialize the Game
+#-----------------------------------------------
+
 SCREEN_H = 750
 SCREEN_W = 750
+running = True
+selected_piece = 0
+color_turn = "white"
+half_turn = 0
+global_turn = 1
+start_index_1,start_index_2 = None,None
+arrived_index_1, arrived_index_2 = None,None
+castling_little,castling_long = None,None
+enable_case = []
+list_attack_white,list_attack_black = None,None
+en_passant = 0
+pos_en_passant = None
+check = False
+
+#Coordinates for each case
+#(White position) from the left to the right: nearest to distant
 
 COORD_CASE = [[(0,656.25),(0,562.5),(0,468.75),(0,375),(0,281.25),(0,187.5),(0,93.75),(0,0)] # case a
            ,[(93.75,656.25),(93.75,562.5),(93.75,468.75),(93.75,375),(93.75,281.25),(93.75,187.5),(93.75,93.75),(93.75,0)] # case b
@@ -9,9 +29,8 @@ COORD_CASE = [[(0,656.25),(0,562.5),(0,468.75),(0,375),(0,281.25),(0,187.5),(0,9
            ,[(468.75,656.25),(468.75,562.5),(468.75,468.75),(468.75,375),(468.75,281.25),(468.75,187.5),(468.75,93.75),(468.75,0)] # case f
            ,[(562.5,656.25),(562.5,562.5),(562.5,468.75),(562.5,375),(562.5,281.25),(562.5,187.5),(562.5,93.75),(562.5,0)] # case g
            ,[(656.25,656.25),(656.25,562.5),(656.25,468.75),(656.25,375),(656.25,281.25),(656.25,187.5),(656.25,93.75),(656.25,0)]] # case h
-#Coordonnées de chaque case
-#de gauche a droite: de la plus proche à la plus éloignée par rapport à la pos des blancs
 
+#The tab 120 to use the "mailbox" method (cf. Robert Hyatt)
 TAB120 = (
 -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 ,-1, -1, -1, -1, -1, -1, -1, -1, -1, -1
@@ -24,10 +43,9 @@ TAB120 = (
 ,-1, 48, 49, 50, 51, 52, 53, 54, 55, -1
 ,-1, 56, 57, 58, 59, 60, 61, 62, 63, -1
 ,-1, -1, -1, -1, -1, -1, -1, -1, -1, -1
-,-1, -1, -1, -1, -1, -1, -1, -1, -1, -1
-)
-#tableau 120 pour méthode "mailbox" de Robert Hyatt
+,-1, -1, -1, -1, -1, -1, -1, -1, -1, -1)
 
+#tuples of direction vector for each piece
 move_pawn_white = (-10,-11,-9)
 move_pawn_black = (10,11,9)
 move_king = (1,9,10,11,-1,-9,-10,-11)
@@ -35,7 +53,8 @@ move_queen = (1, 9, 10, 11,-1,-9,-10,-11)
 move_bishop = (9, 11,-9,-11)
 move_knight = (12, 21, 19, 8,-12,-21,-19,-8)
 move_rook = (1, 10,-1,-10)
-#variable de vecteur de déplacement de chaque pièce
 
+#the position for each last case in two color for promotion of pawn
 last_case_white = [x for x in range(91,99)]
 last_case_black = [x for x in range(21,29)]
+

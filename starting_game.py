@@ -2,7 +2,11 @@ from case import chessboard
 from piece import *
 
 
-def position_starting_game(screen): #fonction de blitt de toutes les positions de départ et prise des caracteristiques pour chaque case
+def position_starting_game(screen):
+    """Function to display all the pieces on the chessboard, starting the game and
+    acquire all information of pieces for each case which include a piece to easier manipulation
+    during the game."""
+
     chessboard[0][0].piece = W_rook
     chessboard[0][0].color = chessboard[0][0].piece.color
     chessboard[0][0].surface.blit(chessboard[0][0].piece.get_sprite(), (0, 0))
