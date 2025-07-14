@@ -86,7 +86,8 @@ def possible_movement(start_index_1,start_index_2,en_passant,pos_en_passant):
             #for double push
             if chessboard[start_index_1][start_index_2].play_once == 0:
                 next_tab64 = start_tab64 - 20
-                if tab64_to_tab120(next_tab64) != -1 and next_tab64 not in case_with_piece:
+                obstacle_to_push = start_tab64 - 10
+                if tab64_to_tab120(next_tab64) != -1 and next_tab64 not in case_with_piece and obstacle_to_push not in case_with_piece:
                     possible_case.append(next_tab64)
             if direction == -11 and start_tab64 + direction in case_with_piece:
                 next_tab64 = start_tab64 + direction
@@ -119,7 +120,8 @@ def possible_movement(start_index_1,start_index_2,en_passant,pos_en_passant):
             #for double push
             if chessboard[start_index_1][start_index_2].play_once == 0:
                 next_tab64 = start_tab64 + 20
-                if tab64_to_tab120(next_tab64) != -1 and next_tab64 not in case_with_piece:
+                obstacle_to_push = start_tab64 + 10
+                if tab64_to_tab120(next_tab64) != -1 and next_tab64 not in case_with_piece and obstacle_to_push not in case_with_piece:
                     possible_case.append(next_tab64)
             if direction == 11 and start_tab64 + direction in case_with_piece:
                 next_tab64 = start_tab64 + direction
@@ -350,6 +352,7 @@ def display_state(color_turn,global_turn,check):
     print(f"COLOR TURN: {color_turn}\n")
     if check:
         print(f"CHECK")
+
 
 
 
